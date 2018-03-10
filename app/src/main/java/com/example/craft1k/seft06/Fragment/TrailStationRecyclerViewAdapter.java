@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.craft1k.seft06.Fragment.TrailStationFragment.OnListFragmentInteractionListener;
@@ -23,6 +24,7 @@ public class TrailStationRecyclerViewAdapter extends RecyclerView.Adapter<TrailS
     private final ArrayList<TrailStation> mTrails;
     private final OnListFragmentInteractionListener mListener;
 
+
     public TrailStationRecyclerViewAdapter(ArrayList<TrailStation> items, OnListFragmentInteractionListener listener) {
 
         this.mTrails = items;
@@ -33,6 +35,7 @@ public class TrailStationRecyclerViewAdapter extends RecyclerView.Adapter<TrailS
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_trail_station, parent, false);
+
         return new ViewHolder(view);
     }
 

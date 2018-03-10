@@ -2,13 +2,17 @@ package com.example.craft1k.seft06.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.craft1k.seft06.Model.Participant;
+import com.example.craft1k.seft06.App.App;
+import com.example.craft1k.seft06.Model.Trail;
+import com.example.craft1k.seft06.Model.TrailStation;
 import com.example.craft1k.seft06.R;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +23,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //sampple Data TODO tobe deleted
+
+
+        ArrayList<Trail> joinedTrail = new ArrayList<Trail>();
+        Trail trailOne = new Trail("trail001","002","Utown",null,null);
+        Trail trailTwo = new Trail("trail002","003","Iss",null,null);
+
+        App.trailManager.addTrail(trailOne);
+        App.trailManager.addTrail(trailTwo);
+
+        App.trailManager.addParticipantTrail(App.participant,trailOne);
+        App.trailManager.addParticipantTrail(App.participant,trailTwo);
+
+
+        // TODO modify with real Firebase Data
+
+        TrailStation trailStation = new TrailStation("001","Utown","001",null,"Go there an do nothing",1);
+
+        trailOne.addTrailStation(trailStation);
 
         mParticipantActivity = (Button) findViewById(R.id.participant_activity);
         mTrainerActivity = (Button) findViewById(R.id.trainer_activity);

@@ -9,13 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.example.craft1k.seft06.Application.App;
+import com.example.craft1k.seft06.App.App;
 import com.example.craft1k.seft06.Model.Trail;
 import com.example.craft1k.seft06.Model.TrailStation;
 import com.example.craft1k.seft06.R;
-
-import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -31,6 +31,9 @@ public class TrailStationFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    private static TextView  mTextView;
+    private static ImageView mImageView;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -45,12 +48,15 @@ public class TrailStationFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
+
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -60,25 +66,21 @@ public class TrailStationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trail_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_trail_station_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
+        if (view.findViewById(R.id.list) instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            // TODO modify with real Firebase Data
-            Trail trail1 = new Trail("001","002","Sample Trail",null,null);
-            TrailStation trailStation = new TrailStation("001","Utown","001",null,"Go there an do nothing",1);
+            //TODO Get Trail by id replace
 
-            trail1.addTrailStation(trailStation);
-
-            recyclerView.setAdapter(new TrailStationRecyclerViewAdapter(trail1.getTrailStations(), mListener));
+            recyclerView.setAdapter(new TrailStationRecyclerViewAdapter(App.trailManager.getTrailById("trail001").getTrailStations(), mListener));
         }
         return view;
     }

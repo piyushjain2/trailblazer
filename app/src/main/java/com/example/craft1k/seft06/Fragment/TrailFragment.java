@@ -10,13 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.craft1k.seft06.Application.App;
+import com.example.craft1k.seft06.App.App;
 import com.example.craft1k.seft06.Model.Trail;
-import com.example.craft1k.seft06.Model.TrailStation;
 import com.example.craft1k.seft06.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -72,17 +70,8 @@ public class TrailFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            ArrayList<Trail> joinedTrail = new ArrayList<Trail>();
-            Trail trailOne = new Trail("trail001","002","Utown",null,null);
-            Trail trailTwo = new Trail("trail002","003","Iss",null,null);
-            App.trailManager.addParticipantTrail(App.participant,trailOne);
-            App.trailManager.addParticipantTrail(App.participant,trailTwo);
-            App.trailManager.addParticipantTrail(App.participant,trailTwo);
-            App.trailManager.addParticipantTrail(App.participant,trailTwo);
-            App.trailManager.addParticipantTrail(App.participant,trailTwo);
 
-            joinedTrail = App.trailManager.getJoinedTrail(App.participant);
-            recyclerView.setAdapter(new TrailRecyclerViewAdapter(joinedTrail, mListener));
+            recyclerView.setAdapter(new TrailRecyclerViewAdapter(App.trailManager.getJoinedTrail(App.participant), mListener));
         }
         return view;
     }

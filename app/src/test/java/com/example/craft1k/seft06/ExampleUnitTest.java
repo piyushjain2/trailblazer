@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze;
+package com.example.craft1k.seft06;
 
 import org.junit.Test;
 

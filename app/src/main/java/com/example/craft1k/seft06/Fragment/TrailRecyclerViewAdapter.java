@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.craft1k.seft06.Fragment.TrailFragment.OnListFragmentInteractionListener;
-
 import com.example.craft1k.seft06.Model.Trail;
 import com.example.craft1k.seft06.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Trail} and makes a call to the

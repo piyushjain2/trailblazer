@@ -1,4 +1,4 @@
-package com.example.craft1k.seft06.Application;
+package com.example.craft1k.seft06.App;
 
 /**
  * Created by Lenovo on 2/27/2018.
@@ -7,7 +7,6 @@ package com.example.craft1k.seft06.Application;
 import android.app.Application;
 
 import com.example.craft1k.seft06.Model.Participant;
-import com.example.craft1k.seft06.Model.Trail;
 import com.example.craft1k.seft06.Model.TrailManager;
 
 
@@ -27,6 +26,7 @@ public class App extends Application {
 
     @Override public final void onCreate() {
         super.onCreate();
+
 
 
 

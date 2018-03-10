@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze;
+package com.example.craft1k.seft06;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("trailblaze.issft06.android.com.trailblaze", appContext.getPackageName());
+        assertEquals("com.example.craft1k.seft06", appContext.getPackageName());
     }
 }

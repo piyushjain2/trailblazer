@@ -3,7 +3,6 @@ package com.example.craft1k.seft06.Model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Lenovo on 2/26/2018.

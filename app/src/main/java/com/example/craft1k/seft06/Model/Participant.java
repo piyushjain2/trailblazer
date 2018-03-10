@@ -1,15 +1,10 @@
 package com.example.craft1k.seft06.Model;
 
-import com.example.craft1k.seft06.Application.App;
-
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Created by Lenovo on 2/26/2018.
  */
 
-public class Participant extends  User  {
+public class Participant extends User {
 
     public Participant(String name, String id, String description, String profileUrl) {
         super(name, id, description, profileUrl);
