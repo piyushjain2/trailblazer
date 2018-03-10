@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "519710240041",
+    "firebase_url": "https://trailblazer-a6e45.firebaseio.com",
+    "project_id": "trailblazer-a6e45",
+    "storage_bucket": "trailblazer-a6e45.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519710240041:android:d7966b859cdb16fc",
+        "android_client_info": {
+          "package_name": "trailblaze.issft06.android.com.trailblaze"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519710240041-v8n0qe0c55fir9fui47rkm9htvspebh5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trailblaze.issft06.android.com.trailblaze",
+            "certificate_hash": "dbe61fa941e9147ca7ae3376aee26d0e7915f0c4"
+          }
+        },
+        {
+          "client_id": "519710240041-iai8m5267e7qc4ita186t0u8uvdknnic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuWuYdiHeTYoWKRhnSJGPpyPoMG6CwZic"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519710240041-iai8m5267e7qc4ita186t0u8uvdknnic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
