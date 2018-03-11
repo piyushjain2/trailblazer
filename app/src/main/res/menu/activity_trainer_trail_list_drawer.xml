@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <menu />
+    </group>
+
+    <item android:title="Switch To...">
+        <menu>
+            <item
+                android:id="@+id/nav_trainer"
+                android:icon="@android:drawable/ic_menu_myplaces"
+                android:title="Trainer" />
+            <item
+                android:id="@+id/nav_participant"
+                android:icon="@android:drawable/star_big_off"
+                android:title="Participant" />
+        </menu>
+    </item>
+
+</menu>
