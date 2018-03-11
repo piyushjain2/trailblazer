@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze;
+package trailblaze.issft06.android.com.trailblaze.view;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class Trainer_trailList extends AppCompatActivity
+import trailblaze.issft06.android.com.trailblaze.R;
+
+public class Trainer_TrailListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override

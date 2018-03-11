@@ -5,4 +5,9 @@
     <string name="action_about">About Us</string>
     <string name="title_activity_trainer_trail_list">Trainer Trail List</string>
     <string name="button">Trainer Trail List</string>
+    <string name="desc_app_logo">TrailBlazeLearner logo and name</string>
+    <string name="trailblaze_title_text">TrailBlaze Login</string>
+    <string name="facebook_app_id">1884500165169162</string>
+    <string name="fb_login_protocol_scheme">fb1884500165169162</string>
+
 </resources>
