@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.craft1k.seft06.Activity.TrailDetailActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="fill_parent"
+            android:layout_height="290dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/trail" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/join_trail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center|end"
+            android:layout_marginEnd="69dp"
+            android:layout_marginTop="261dp"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#333333"
+            android:text="Trail Name"
+            android:textSize="50dp"
+            android:id="@+id/trail_detail_name"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#333333"
+            android:text="Trail Description"
+            android:textSize="10dp"
+
+            android:id="@+id/trail_detail_description"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp" />
+    </LinearLayout>
+
+</LinearLayout>
