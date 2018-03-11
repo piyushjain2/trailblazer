@@ -23,6 +23,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".Activity.ParticipantActivity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.SearchTrailActivity" />
+        <activity android:name=".Activity.TrailDetailActivity"></activity>
+
     </application>
 
 </manifest>
