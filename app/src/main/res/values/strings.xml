@@ -5,4 +5,6 @@
     <string name="action_about">About Us</string>
     <string name="title_activity_trainer_trail_list">Trainer Trail List</string>
     <string name="button">Trainer Trail List</string>
+    <string name="action_settings">Setting</string>
+    <string name="title_activity_main2">Participant</string>
 </resources>
