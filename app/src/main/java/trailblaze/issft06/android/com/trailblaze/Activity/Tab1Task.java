@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import trailblaze.issft06.android.com.trailblaze.R;
 
-public class Tab1_Task extends Fragment {
+public class Tab1Task extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

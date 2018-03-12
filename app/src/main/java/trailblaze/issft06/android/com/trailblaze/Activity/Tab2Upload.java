@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import trailblaze.issft06.android.com.trailblaze.R;
 
-public class Tab2_Upload extends Fragment {
+public class Tab2Upload extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

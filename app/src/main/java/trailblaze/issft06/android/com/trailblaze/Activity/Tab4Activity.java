@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import trailblaze.issft06.android.com.trailblaze.R;
 
-public class Tab4_Activity extends Fragment {
+public class Tab4Activity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

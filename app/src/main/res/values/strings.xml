@@ -7,4 +7,15 @@
     <string name="button">Trainer Trail List</string>
     <string name="action_settings">Setting</string>
     <string name="title_activity_main2">Participant</string>
+    <string name="title_activity_participant_trail_station">ParticipantTrailStation</string>
+    <string name="tab_text_1">Task</string>
+    <string name="tab_text_2">Upload</string>
+    <string name="tab_text_3">Discuss</string>
+    <string name="tab_text_4">Activity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="instructionTitle">Instruction:</string>
+    <string name="instructionText">You need to take a photo of this location and upload it</string>
+    <string name="locationText">Location:</string>
+    <string name="live_activities">Live Activities</string>
+    <string name="discussionText">Discussion</string>
 </resources>
