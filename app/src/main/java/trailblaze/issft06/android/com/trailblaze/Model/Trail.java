@@ -14,25 +14,27 @@ public class Trail {
     public static final String TIME_FORMAT = "d-MMM-yyyy H:mm";
 
     private String   id;
+
     private String userId; // created user
     private String name;
     private Date    date;
-    private Timestamp timestamp;
-    private ArrayList<TrailStation> trailStations;
+    private Date timestamp;
+    private ArrayList<String> trailStations;
 
-    public void addTrailStation(TrailStation trailStation) {
 
-        this.trailStations.add(trailStation);
+    private String firebaseId;
+
+    public String getFirebaseId() {
+        return firebaseId;
     }
 
-    public Trail(String id, String userId, String name, Date date, Timestamp timestamp) {
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.date = date;
-        this.timestamp = timestamp;
-        this.trailStations = new ArrayList<TrailStation>();
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
 
+    public Trail() {
+
+        trailStations = new ArrayList<String>();
     }
 
     public static String getDateFormat() {
@@ -75,19 +77,19 @@ public class Trail {
         this.date = date;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
-    public ArrayList<TrailStation> getTrailStations() {
+    public ArrayList<String> getTrailStations() {
         return trailStations;
     }
 
-    public void setTrailSation(ArrayList<TrailStation> trailStations) {
+    public void setTrailStations(ArrayList<String> trailStations) {
         this.trailStations = trailStations;
     }
 }

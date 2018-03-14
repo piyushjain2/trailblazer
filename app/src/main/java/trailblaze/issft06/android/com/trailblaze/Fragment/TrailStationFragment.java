@@ -3,18 +3,32 @@ package trailblaze.issft06.android.com.trailblaze.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
 import trailblaze.issft06.android.com.trailblaze.App.App;
+import trailblaze.issft06.android.com.trailblaze.Model.Trail;
 import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A fragment representing a list of Items.
@@ -30,6 +44,9 @@ public class TrailStationFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    private Trail trail;
+
+
     private static TextView  mTextView;
     private static ImageView mImageView;
 
@@ -38,6 +55,16 @@ public class TrailStationFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public TrailStationFragment() {
+
+
+    }
+
+    public Trail getTrail() {
+        return trail;
+    }
+
+    public void setTrail(Trail trail) {
+        this.trail = trail;
     }
 
     // TODO: Customize parameter initialization
@@ -70,7 +97,7 @@ public class TrailStationFragment extends Fragment {
         // Set the adapter
         if (view.findViewById(R.id.list) instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+            final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -79,7 +106,38 @@ public class TrailStationFragment extends Fragment {
 
             //TODO Get Trail by id replace
 
-            recyclerView.setAdapter(new TrailStationRecyclerViewAdapter(App.trailManager.getTrailById("trail001").getTrailStations(), mListener));
+            FirebaseFirestore mdb = FirebaseFirestore.getInstance();
+            CollectionReference mTrails = mdb.collection("trailStations");
+            final ArrayList<TrailStation> trailStations = new ArrayList<TrailStation>();
+            for(String id : this.trail.getTrailStations() ) {
+                mTrails
+                        .whereEqualTo("id", id)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                        if (document != null && document.exists()) {
+                                            TrailStation trailStation = document.toObject(TrailStation.class);
+
+                                                trailStations.add(trailStation);
+                                        }
+                                    }
+
+                                    recyclerView.setAdapter(new TrailStationRecyclerViewAdapter(trailStations, mListener));
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+
+
+                            }
+                        });
+            }
+
+
         }
         return view;
     }

@@ -55,6 +55,9 @@ public class TrailRecyclerViewAdapter extends RecyclerView.Adapter<TrailRecycler
 
     @Override
     public int getItemCount() {
+        if (mTrails == null) {
+            return 0;
+        }
         return mTrails.size();
     }
 

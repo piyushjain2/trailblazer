@@ -1,10 +1,13 @@
 package trailblaze.issft06.android.com.trailblaze.firestoredao;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -16,6 +19,8 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import trailblaze.issft06.android.com.trailblaze.Model.Trail;
 
 import static android.content.ContentValues.TAG;
 
@@ -30,14 +35,17 @@ public class Trails_dao {
 
     // Access a Cloud Firestore instance from your Activity
 
-    FirebaseFirestore mdb = FirebaseFirestore.getInstance();
-    CollectionReference mtrails = mdb.collection("trails");
-    FirestoredaoMgr daoMgr = new FirestoredaoMgr();
+    FirebaseFirestore mdb ;
+    CollectionReference mtrails ;
+    FirestoredaoMgr daoMgr ;
 
 
 
-    public Trails_dao() {
-
+    public Trails_dao(Context context) {
+        FirebaseApp.initializeApp(context);
+        mdb = FirebaseFirestore.getInstance();
+        mtrails = mdb.collection("trails");
+        daoMgr = new FirestoredaoMgr();
     }
 
 
@@ -90,8 +98,9 @@ public class Trails_dao {
     // Getting trails by trailID
     private Map<String, Object> getTrailbyID(String trailID){
 
+
         mtrails
-                .whereEqualTo("trailID", trailID)
+                .whereEqualTo("trailId", trailID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -113,6 +122,37 @@ public class Trails_dao {
 
         //return object containing HashMap
         return null;
+
+    }
+
+
+    public Trail getTrailById(String trailID){
+
+        final Trail[] trail = {new Trail()};
+
+        mtrails
+                .whereEqualTo("id", trailID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                if(document != null && document.exists()) {
+                                     trail[0] = document.toObject(Trail.class);
+
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        //return object containing HashMap
+        return trail[0];
 
     }
 

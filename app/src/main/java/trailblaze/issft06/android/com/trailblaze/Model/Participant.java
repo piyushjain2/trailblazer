@@ -1,13 +1,26 @@
 package trailblaze.issft06.android.com.trailblaze.Model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Lenovo on 2/26/2018.
  */
 
 public class Participant extends User {
 
-    public Participant(String name, String id, String description, String profileUrl) {
-        super(name, id, description, profileUrl);
+    public Participant() {
+        super();
+        joinedTrail = new ArrayList<String>();
+    }
+
+    private ArrayList<String> joinedTrail;
+
+    public ArrayList<String> getJoinedTrail() {
+        return joinedTrail;
+    }
+
+    public void setJoinedTrail(ArrayList<String> joinedTrail) {
+        this.joinedTrail = joinedTrail;
     }
 
     public void joinTrail (Trail trail) {

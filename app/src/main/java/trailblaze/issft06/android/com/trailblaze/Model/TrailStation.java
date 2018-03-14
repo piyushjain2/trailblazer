@@ -12,13 +12,7 @@ public class TrailStation {
     private String instruction;
     private int sequence;
 
-    public TrailStation(String id, String name, String trailId, String GPS, String instruction, int sequence) {
-        this.id = id;
-        this.name = name;
-        this.trailId = trailId;
-        this.GPS = GPS;
-        this.instruction = instruction;
-        this.sequence = sequence;
+    public TrailStation() {
     }
 
     public String getId() {

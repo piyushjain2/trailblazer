@@ -5,8 +5,8 @@ package trailblaze.issft06.android.com.trailblaze.Model;
  */
 
 class Trainer extends User {
-    public Trainer(String name, String id, String description, String profileUrl) {
-        super(name, id, description,profileUrl);
+    public Trainer() {
+        super();
     }
 
     public void createTrail() {

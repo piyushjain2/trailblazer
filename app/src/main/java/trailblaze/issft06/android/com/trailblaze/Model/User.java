@@ -10,11 +10,18 @@ public class User {
     private String description;
     private String profileUrl;
 
-    public User(String name, String id, String description, String profileUrl) {
-        this.name = name;
-        this.id = id;
-        this.description = description;
-        this.profileUrl = profileUrl;
+    private String firebaseId;
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
+    public User() {
+
     }
 
     public String getName() {

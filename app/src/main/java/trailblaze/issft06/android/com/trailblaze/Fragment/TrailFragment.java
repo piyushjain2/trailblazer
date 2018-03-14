@@ -3,16 +3,30 @@ package trailblaze.issft06.android.com.trailblaze.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
 import trailblaze.issft06.android.com.trailblaze.App.App;
 import trailblaze.issft06.android.com.trailblaze.Model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
+import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A fragment representing a list of Items.
@@ -62,14 +76,45 @@ public class TrailFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            final RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            recyclerView.setAdapter(new TrailRecyclerViewAdapter(App.trailManager.getJoinedTrail(App.participant), mListener));
+            final ArrayList<Trail> trails = new ArrayList<Trail>();
+            FirebaseFirestore mdb = FirebaseFirestore.getInstance();
+            CollectionReference mTrails = mdb.collection("trails");
+            for(String trailId : App.participant.getJoinedTrail() ) {
+                mTrails
+                        .whereEqualTo("id", trailId)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                        if (document != null && document.exists()) {
+                                            Trail trail = document.toObject(Trail.class);
+                                            trails.add(trail);
+                                        }
+                                    }
+
+                                    recyclerView.setAdapter(new TrailRecyclerViewAdapter(trails, mListener));
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+
+
+                            }
+                        });
+            }
+
+
+
         }
         return view;
     }
