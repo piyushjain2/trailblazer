@@ -1,5 +1,8 @@
 package trailblaze.issft06.android.com.trailblaze;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,17 +17,37 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import trailblaze.issft06.android.com.trailblaze.Activity.TrailListAdapter;
+import trailblaze.issft06.android.com.trailblaze.App.App;
 import trailblaze.issft06.android.com.trailblaze.Fragment.RVAdapter;
+import trailblaze.issft06.android.com.trailblaze.Fragment.TrailFragment;
+import trailblaze.issft06.android.com.trailblaze.Fragment.TrailStationFragment;
+import trailblaze.issft06.android.com.trailblaze.Model.Trail;
+import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.cardPOJO;
 
 public class Trainer_trailList extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, TrailFragment.OnListFragmentInteractionListener,TrailStationFragment.OnListFragmentInteractionListener  {
+
     public List<cardPOJO> persons;
     public RecyclerView rv;
+
+    private TextView mUserName;
+    private ImageView mProfilePic;
+
+    private FloatingActionButton fab;
+
+    private RecyclerView mListTrail;
+    private TrailListAdapter mTrailListAdapter;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,14 +64,29 @@ public class Trainer_trailList extends AppCompatActivity
             }
         });
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+
+
+
+
+
+        mUserName = (TextView) headerView.findViewById(R.id.user_name);
+
+        mUserName.setText(App.participant.getName());
+
+        mProfilePic = (ImageView) headerView.findViewById(R.id.profile_picture);
+        Uri profilePictureURI =  Uri.parse(App.participant.getProfileUrl());
+        mProfilePic.setImageURI(profilePictureURI);
 
         rv=(RecyclerView)findViewById(R.id.rv);
 
@@ -121,4 +159,24 @@ public class Trainer_trailList extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    @Override
+    public void onListFragmentInteraction(Trail trail) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+        TrailStationFragment trailStationFragment = new TrailStationFragment();
+        fragmentTransaction.replace(R.id.fragment_container, trailStationFragment);
+        fragmentTransaction.commit();
+
+        fab.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onListFragmentInteraction(TrailStation trailStation) {
+
+    }
+
+
 }
