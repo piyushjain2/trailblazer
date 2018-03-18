@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "510604641564",
+    "firebase_url": "https://myapp-bfafa.firebaseio.com",
+    "project_id": "myapp-bfafa",
+    "storage_bucket": "myapp-bfafa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510604641564:android:d7966b859cdb16fc",
+        "android_client_info": {
+          "package_name": "trailblaze.issft06.android.com.trailblaze"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510604641564-1cv9pnctomlnso1esa1ibrimbraa6plt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trailblaze.issft06.android.com.trailblaze",
+            "certificate_hash": "765e8a5b9e2810514a2fdcb4290c604bd9c50b01"
+          }
+        },
+        {
+          "client_id": "510604641564-u63p19jcj9jj4b8f5koei0bg9dv5uqtq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trailblaze.issft06.android.com.trailblaze",
+            "certificate_hash": "7557e36d0e9f6ea571265bf52d346c225e78e8cd"
+          }
+        },
+        {
+          "client_id": "510604641564-ong20mitr83u7rn37tune28k6v7lv79m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSTY9YWlm80pks_Ewf3wMwpgYG_YDlUtc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510604641564-ong20mitr83u7rn37tune28k6v7lv79m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
