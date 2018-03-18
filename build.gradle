@@ -19,11 +19,15 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
         jcenter()
-        maven {
+        mavenLocal()
+        mavenCentral()
+        maven {                                  // <-- Add this
             url 'https://maven.google.com/'
             name 'Google'
+        }
+        flatDir {
+            dirs 'libs'
         }
     }
 }
