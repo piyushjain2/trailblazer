@@ -14,8 +14,7 @@ import trailblaze.issft06.android.com.trailblaze.R;
 public class Tab1Task extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab1_task, container, false);
 
         return rootView;
