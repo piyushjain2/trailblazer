@@ -30,9 +30,15 @@ public class Tab3Discuss extends Fragment {
     private FirebaseFirestore mDocRef = FirebaseFirestore.getInstance();
     private List<String> postList = new ArrayList<>();
     ListView listView;
+    private String TrailStationID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        if ( getArguments() != null ) {
+            TrailStationID = getArguments().getString("TrailStationID");
+        }
+
         View rootView = inflater.inflate(R.layout.tab3_discuss, container, false);
 
         listView = rootView.findViewById(R.id.list_of_messages);
@@ -46,7 +52,18 @@ public class Tab3Discuss extends Fragment {
                 postList.clear();
 
                 for (DocumentSnapshot snapshot : documentSnapshots) {
-                    postList.add(snapshot.getString("msg"));
+
+                    String getTrailStationID = snapshot.getString("TrailStationID");
+
+                    if (getTrailStationID != null) {
+
+                        if (getTrailStationID.equals(TrailStationID)) {
+
+                            String str = snapshot.getString("UserID") + ": " + snapshot.getString("Msg");
+                            postList.add(str);
+
+                        }
+                    }
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, postList);

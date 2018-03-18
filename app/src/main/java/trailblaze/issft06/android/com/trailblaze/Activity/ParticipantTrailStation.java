@@ -21,7 +21,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
@@ -33,6 +32,9 @@ public class ParticipantTrailStation extends AppCompatActivity {
     public static final String TAG = "Message";
     private FirebaseFirestore mDocRef = FirebaseFirestore.getInstance();
 
+//    need to update here
+    private String TrailStationID = "1234567x";
+    private String UserID = "Dinh";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -86,9 +88,10 @@ public class ParticipantTrailStation extends AppCompatActivity {
 
         Date now = new Date();
 
-        // Need to add UserID
-        dataToSave.put("msg", inputText);
-        dataToSave.put("time", now);
+        dataToSave.put("TrailStationID", TrailStationID);
+        dataToSave.put("UserID", UserID);
+        dataToSave.put("Msg", inputText);
+        dataToSave.put("Time", now);
 
         mDocRef.collection("post").document(now.toString()).set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -144,6 +147,10 @@ public class ParticipantTrailStation extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
 
+            // pass TrailStationID to fragments
+            Bundle params = new Bundle();
+            params.putString ("TrailStationID", TrailStationID);
+
             switch (position) {
                 case 0:
                     Tab1Task tab1 = new Tab1Task();
@@ -153,6 +160,7 @@ public class ParticipantTrailStation extends AppCompatActivity {
                     return tab2;
                 case 2:
                     Tab3Discuss tab3 = new Tab3Discuss();
+                    tab3.setArguments(params);
                     return tab3;
                 case 3:
                     Tab4Activity tab4 = new Tab4Activity();
