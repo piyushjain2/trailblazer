@@ -33,7 +33,7 @@ public class ParticipantTrailStation extends AppCompatActivity {
     private FirebaseFirestore mDocRef = FirebaseFirestore.getInstance();
 
 //    need to update here
-    private String TrailStationID = "1234567x";
+    private String TrailStationID = "20180205-ExampleSecond";
     private String UserID = "Dinh";
 
     /**
@@ -154,9 +154,11 @@ public class ParticipantTrailStation extends AppCompatActivity {
             switch (position) {
                 case 0:
                     Tab1Task tab1 = new Tab1Task();
+                    tab1.setArguments(params);
                     return tab1;
                 case 1:
                     Tab2Upload tab2 = new Tab2Upload();
+                    tab2.setArguments(params);
                     return tab2;
                 case 2:
                     Tab3Discuss tab3 = new Tab3Discuss();
@@ -164,6 +166,7 @@ public class ParticipantTrailStation extends AppCompatActivity {
                     return tab3;
                 case 3:
                     Tab4Activity tab4 = new Tab4Activity();
+                    tab4.setArguments(params);
                     return tab4;
                 default:
                     return null;

@@ -51,6 +51,7 @@ public class Tab3Discuss extends Fragment {
 
                 postList.clear();
 
+                // need to improve here, maybe use sql instead of downloading all data?
                 for (DocumentSnapshot snapshot : documentSnapshots) {
 
                     String getTrailStationID = snapshot.getString("TrailStationID");
