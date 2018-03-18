@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package trailblaze.issft06.android.com.trailblaze.Activity;
+package trailblaze.issft06.android.com.trailblaze.activity;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
 
 

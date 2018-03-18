@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Fragment;
+package trailblaze.issft06.android.com.trailblaze.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import trailblaze.issft06.android.com.trailblaze.Fragment.TrailFragment.OnListFragmentInteractionListener;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
+import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment.OnListFragmentInteractionListener;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
 
 import java.util.ArrayList;

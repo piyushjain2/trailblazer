@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Activity;
+package trailblaze.issft06.android.com.trailblaze.activity;
 
 /**
  * Created by nhatdx on 13/3/18.

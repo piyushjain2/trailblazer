@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="trailblaze.issft06.android.com.trailblaze.Activity.ParticipantTrailStation">
+    tools:context="trailblaze.issft06.android.com.trailblaze.activity.ParticipantTrailStation">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

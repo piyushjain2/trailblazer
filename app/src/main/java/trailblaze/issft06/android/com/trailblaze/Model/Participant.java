@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Model;
+package trailblaze.issft06.android.com.trailblaze.model;
 
 import java.util.ArrayList;
 

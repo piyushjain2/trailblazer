@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Fragment;
+package trailblaze.issft06.android.com.trailblaze.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -21,10 +21,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import trailblaze.issft06.android.com.trailblaze.App.App;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
+import trailblaze.issft06.android.com.trailblaze.app.App;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
-import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
+import trailblaze.issft06.android.com.trailblaze.firestoredao.Trails_dao;
 
 import static android.content.ContentValues.TAG;
 
@@ -42,12 +42,18 @@ public class TrailFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+
+
+
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public TrailFragment() {
     }
+
+
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -66,7 +72,13 @@ public class TrailFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+
+
+
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +88,10 @@ public class TrailFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
+
+
             final RecyclerView recyclerView = (RecyclerView) view;
+
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -86,6 +101,7 @@ public class TrailFragment extends Fragment {
             final ArrayList<Trail> trails = new ArrayList<Trail>();
             FirebaseFirestore mdb = FirebaseFirestore.getInstance();
             CollectionReference mTrails = mdb.collection("trails");
+            Trails_dao mTrailDao = new Trails_dao();
             for(String trailId : App.participant.getJoinedTrail() ) {
                 mTrails
                         .whereEqualTo("id", trailId)
@@ -111,11 +127,17 @@ public class TrailFragment extends Fragment {
 
                             }
                         });
+
+//                trails.add(mTrailDao.getTrailById(trailId));
             }
 
 
 
         }
+
+
+
+
         return view;
     }
 
@@ -151,6 +173,7 @@ public class TrailFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Trail trail);
     }
+
 
 
 }

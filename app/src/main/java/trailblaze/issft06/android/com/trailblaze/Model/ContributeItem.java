@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Model;
+package trailblaze.issft06.android.com.trailblaze.model;
 
 /**
  * Created by Lenovo on 2/26/2018.
@@ -6,10 +6,22 @@ package trailblaze.issft06.android.com.trailblaze.Model;
 
 public class ContributeItem {
     private String id;
+    private String userId;
     private String name;
     private String trailStationId;
     private String url;
     private String desc;
+
+
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;

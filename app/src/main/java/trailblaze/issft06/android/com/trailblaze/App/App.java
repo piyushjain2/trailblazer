@@ -1,28 +1,15 @@
-package trailblaze.issft06.android.com.trailblaze.App;
+package trailblaze.issft06.android.com.trailblaze.app;
 
 /**
  * Created by Lenovo on 2/27/2018.
  */
 
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import trailblaze.issft06.android.com.trailblaze.Model.Participant;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-import trailblaze.issft06.android.com.trailblaze.Model.TrailManager;
-import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
-
-import static android.content.ContentValues.TAG;
+import trailblaze.issft06.android.com.trailblaze.model.Participant;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
+import trailblaze.issft06.android.com.trailblaze.model.TrailManager;
+import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 
 
 /**
@@ -34,6 +21,7 @@ public class App extends Application {
     public static Participant participant = new Participant();
 //            =new Participant("Manh Pham","001","Sample Participant","https://avatars2.githubusercontent.com/u/5423719?s=400&v=4");
     public static Trail trail = new Trail();
+    public static TrailStation trailStation = new TrailStation();
 
     public App() {
 

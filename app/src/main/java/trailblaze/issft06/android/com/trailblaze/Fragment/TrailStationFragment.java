@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Fragment;
+package trailblaze.issft06.android.com.trailblaze.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,9 +24,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import trailblaze.issft06.android.com.trailblaze.App.App;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
+import trailblaze.issft06.android.com.trailblaze.app.App;
+import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
 
 import static android.content.ContentValues.TAG;
@@ -44,11 +44,11 @@ public class TrailStationFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-    private Trail trail;
 
 
     private static TextView  mTextView;
     private static ImageView mImageView;
+    private  Button mUnjoinTrail;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,13 +59,7 @@ public class TrailStationFragment extends Fragment {
 
     }
 
-    public Trail getTrail() {
-        return trail;
-    }
 
-    public void setTrail(Trail trail) {
-        this.trail = trail;
-    }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -82,6 +76,8 @@ public class TrailStationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
 
         if (getArguments() != null) {
@@ -109,7 +105,7 @@ public class TrailStationFragment extends Fragment {
             FirebaseFirestore mdb = FirebaseFirestore.getInstance();
             CollectionReference mTrails = mdb.collection("trailStations");
             final ArrayList<TrailStation> trailStations = new ArrayList<TrailStation>();
-            for(String id : this.trail.getTrailStations() ) {
+            for(String id : App.trail.getTrailStations() ) {
                 mTrails
                         .whereEqualTo("id", id)
                         .get()
@@ -137,7 +133,60 @@ public class TrailStationFragment extends Fragment {
                         });
             }
 
+            mUnjoinTrail = (Button) view.findViewById(R.id.unjoin_trail);
 
+            mUnjoinTrail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mUnjoinTrail.setEnabled(false);
+                    mUnjoinTrail.setText("You do not join this Trail yet!");
+                    FirebaseFirestore mdb = FirebaseFirestore.getInstance();
+                    final CollectionReference mUsers = mdb.collection("users");
+                    mUsers
+                            .whereEqualTo("id", App.participant.getId())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (DocumentSnapshot document : task.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                            if (document != null && document.exists()) {
+                                                final CollectionReference mTrails = mUsers.document(document.getId()).collection("joinedTrails");
+                                                mTrails
+                                                        .whereEqualTo("id", App.trail.getId())
+                                                        .get()
+                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                for (DocumentSnapshot document : task.getResult()) {
+                                                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                                                    if (document != null && document.exists()) {
+                                                                        mTrails.document(document.getId()).delete();
+
+
+                                                                    } else {
+                                                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+
+
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+
+
+                                }
+                            });
+
+                }
+
+            });
         }
         return view;
     }
@@ -160,6 +209,8 @@ public class TrailStationFragment extends Fragment {
         mListener = null;
     }
 
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -174,6 +225,8 @@ public class TrailStationFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(TrailStation trailStation);
     }
+
+
 
 
 }

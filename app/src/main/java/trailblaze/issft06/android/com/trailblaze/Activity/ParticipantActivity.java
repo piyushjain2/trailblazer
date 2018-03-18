@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Activity;
+package trailblaze.issft06.android.com.trailblaze.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -21,7 +21,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -38,12 +37,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import trailblaze.issft06.android.com.trailblaze.App.App;
-import trailblaze.issft06.android.com.trailblaze.Fragment.TrailFragment;
-import trailblaze.issft06.android.com.trailblaze.Fragment.TrailStationFragment;
-import trailblaze.issft06.android.com.trailblaze.Model.Participant;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
+import trailblaze.issft06.android.com.trailblaze.app.App;
+import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment;
+import trailblaze.issft06.android.com.trailblaze.fragment.TrailStationFragment;
+import trailblaze.issft06.android.com.trailblaze.model.Participant;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
+import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
 
@@ -65,8 +64,7 @@ public class ParticipantActivity extends AppCompatActivity
 
     private FloatingActionButton fab;
 
-    private RecyclerView mListTrail;
-    private TrailListAdapter mTrailListAdapter;
+    private String fragment = "TRAILS_LIST";
 
 
     FirebaseFirestore mdb ;
@@ -203,7 +201,15 @@ public class ParticipantActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (this.fragment == "TRAIL_DETAILS") {
+
+            Intent myIntent = new Intent(ParticipantActivity.this, ParticipantActivity.class);
+
+            ParticipantActivity.this.startActivity(myIntent);
+
+
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -247,10 +253,11 @@ public class ParticipantActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Trail trail) {
 
-
+        this.fragment = "TRAIL_DETAILS";
         FirebaseFirestore mdb = FirebaseFirestore.getInstance();
         final CollectionReference mTrails = mdb.collection("trails");
         Log.d(TAG, trail.getId() );
+
 
         mTrails
                 .whereEqualTo("id", trail.getId())
@@ -282,7 +289,7 @@ public class ParticipantActivity extends AppCompatActivity
 
                                                 TrailStationFragment trailStationFragment = new TrailStationFragment();
 
-                                                trailStationFragment.setTrail(App.trail);
+
                                                 fragmentTransaction.replace(R.id.fragment_container, trailStationFragment);
                                                 fragmentTransaction.commit();
                                             }
@@ -302,6 +309,8 @@ public class ParticipantActivity extends AppCompatActivity
         fab.setVisibility(View.INVISIBLE);
     }
 
+
+
     @Override
     public void onListFragmentInteraction(TrailStation trailStation) {
         Intent myIntent = new Intent(ParticipantActivity.this, ParticipantTrailStation.class);
@@ -310,6 +319,7 @@ public class ParticipantActivity extends AppCompatActivity
 
 
         myIntent.putExtra("trailId", trailStation.getId()); //Optional parameters
+        App.trailStation = trailStation;
         ParticipantActivity.this.startActivity(myIntent);
 
     }
@@ -334,8 +344,11 @@ public class ParticipantActivity extends AppCompatActivity
         }
 
         protected void onPostExecute(Bitmap result) {
-            Bitmap roundBitmap = getCroppedBitmap( result, 250);
-            mProfilePic.setImageBitmap(roundBitmap);
+            if (result != null) {
+                Bitmap roundBitmap = getCroppedBitmap(result, 250);
+                mProfilePic.setImageBitmap(roundBitmap);
+            }
+
 
         }
         private  Bitmap getCroppedBitmap( @NonNull Bitmap bmp, int radius )
