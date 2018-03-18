@@ -24,8 +24,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
+import java.util.Calendar;
 
 import trailblaze.issft06.android.com.trailblaze.R;
+
 
 public class ParticipantTrailStation extends AppCompatActivity {
 
@@ -87,13 +89,16 @@ public class ParticipantTrailStation extends AppCompatActivity {
         Map<String, Object> dataToSave = new HashMap<>();
 
         Date now = new Date();
+        Calendar timeInMillis = Calendar.getInstance();
+        timeInMillis.setTime(now);
+        String timeInString = Long.toString(timeInMillis.getTimeInMillis());
 
         dataToSave.put("TrailStationID", TrailStationID);
         dataToSave.put("UserID", UserID);
         dataToSave.put("Msg", inputText);
         dataToSave.put("Time", now);
 
-        mDocRef.collection("post").document(now.toString()).set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mDocRef.collection("post").document(timeInString).set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Has been sent");
@@ -171,7 +176,6 @@ public class ParticipantTrailStation extends AppCompatActivity {
                 default:
                     return null;
             }
-
         }
 
         @Override

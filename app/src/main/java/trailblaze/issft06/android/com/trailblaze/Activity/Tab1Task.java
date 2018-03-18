@@ -18,14 +18,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import trailblaze.issft06.android.com.trailblaze.R;
 
+
 public class Tab1Task extends Fragment {
 
-    public static final String COLLECTION = "trail_station";
+    public static final String COLLECTION_KEY = "trail_station";
     public static final String INSTRUCTION_KEY = "instructions";
     public static final String TrailStationName_KEY = "stn_name";
     public static final String GPS_KEY = "GPS";
 
-    public static final String GetTrailStationID_KEY = "TrailStationID";
+    public static final String GetTrailStationID = "TrailStationID";
 
     private String TrailStationID;
     private FirebaseFirestore mDocRef = FirebaseFirestore.getInstance();
@@ -34,12 +35,12 @@ public class Tab1Task extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if ( getArguments() != null ) {
-            TrailStationID = getArguments().getString(GetTrailStationID_KEY);
+            TrailStationID = getArguments().getString(GetTrailStationID);
         }
 
         final View rootView = inflater.inflate(R.layout.tab1_task, container, false);
 
-        mDocRef.document(COLLECTION + "/" + TrailStationID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        mDocRef.document(COLLECTION_KEY + "/" + TrailStationID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 

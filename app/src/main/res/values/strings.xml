@@ -15,7 +15,7 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="instructionTitle">Instruction:</string>
     <string name="instructionText" />
-    <string name="locationText">Location:</string>
+    <string name="locationText">Station Name:</string>
     <string name="live_activities">Live Activities</string>
     <string name="discussionText">Discussion</string>
     <string name="sendingButton">Send</string>
