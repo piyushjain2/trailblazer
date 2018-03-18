@@ -18,6 +18,7 @@
     <string name="locationText">Location:</string>
     <string name="live_activities">Live Activities</string>
     <string name="discussionText">Discussion</string>
+    <string name="sendingButton">Send</string>
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
 </resources>

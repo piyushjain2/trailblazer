@@ -1,8 +1,7 @@
 package trailblaze.issft06.android.com.trailblaze.Activity;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,17 +10,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.TextView;
+import android.widget.EditText;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Date;
 
 import trailblaze.issft06.android.com.trailblaze.R;
 
 public class ParticipantTrailStation extends AppCompatActivity {
+
+    public static final String TAG = "Message";
+    private FirebaseFirestore mDocRef = FirebaseFirestore.getInstance();
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -40,6 +51,7 @@ public class ParticipantTrailStation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant_trail_station);
 
@@ -58,15 +70,40 @@ public class ParticipantTrailStation extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+    }
+
+    // Push the message to the database
+    public void sendMessage(View view) {
+
+        final EditText input = findViewById(R.id.sendPost);
+        String inputText = input.getText().toString();
+
+        if (inputText.isEmpty()) {
+            return;
+        }
+
+        Map<String, Object> dataToSave = new HashMap<>();
+
+        Date now = new Date();
+
+        // Need to add UserID
+        dataToSave.put("msg", inputText);
+        dataToSave.put("time", now);
+
+        mDocRef.collection("post").document(now.toString()).set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Has been sent");
+
+                input.setText(null);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Message was not sent!", e);
             }
         });
-
     }
 
 
@@ -76,6 +113,7 @@ public class ParticipantTrailStation extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_participant_trail_station, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
