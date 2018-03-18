@@ -39,11 +39,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import trailblaze.issft06.android.com.trailblaze.App.App;
-import trailblaze.issft06.android.com.trailblaze.Fragment.TrailFragment;
-import trailblaze.issft06.android.com.trailblaze.Fragment.TrailStationFragment;
-import trailblaze.issft06.android.com.trailblaze.Model.Participant;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
+import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment;
+import trailblaze.issft06.android.com.trailblaze.fragment.TrailStationFragment;
+import trailblaze.issft06.android.com.trailblaze.model.Participant;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
+import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
 
@@ -56,7 +56,7 @@ import static android.content.ContentValues.TAG;
 public class ParticipantActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TrailFragment.OnListFragmentInteractionListener,TrailStationFragment.OnListFragmentInteractionListener {
 
-    private Participant participant;
+    private Participant participant ;
     private ArrayList<Trail> joinedTrail;
 //    private TrailManager trailManager ;
 
@@ -80,7 +80,7 @@ public class ParticipantActivity extends AppCompatActivity
 
 
         // Get joined Trail
-
+        participant = (Participant) App.user;
         joinedTrail = App.trailManager.getJoinedTrail(participant);
 
         FirebaseApp.initializeApp(this);
@@ -154,8 +154,8 @@ public class ParticipantActivity extends AppCompatActivity
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
                                 if(document != null && document.exists()) {
-                                    App.participant = document.toObject(Participant.class);
-                                    App.participant.setFirebaseId(document.getId());
+                                    participant = document.toObject(Participant.class);
+                                    participant.setFirebaseId(document.getId());
                                     Uri profilePictureURI =  Uri.parse(App.participant.getProfileUrl());
                                     new DownloadImageTask(mProfilePic)
                                             .execute(App.participant.getProfileUrl());

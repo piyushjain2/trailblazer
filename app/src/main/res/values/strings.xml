@@ -18,4 +18,11 @@
     <string name="locationText">Location:</string>
     <string name="live_activities">Live Activities</string>
     <string name="discussionText">Discussion</string>
+
+    <string name="FacebookAppId">1884500165169162</string>
+    <string name="facebook_app_id">1884500165169162</string>
+    <string name="fb_login_protocol_scheme">fb1884500165169162</string>
+    <string name="action_switch_role">Switch Role</string>
+    <string name="todo">logo</string>
+    <string name="login">LOGIN</string>
 </resources>

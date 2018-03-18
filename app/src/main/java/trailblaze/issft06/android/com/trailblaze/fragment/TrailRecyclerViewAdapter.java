@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Fragment;
+package trailblaze.issft06.android.com.trailblaze.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,9 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import trailblaze.issft06.android.com.trailblaze.Fragment.TrailStationFragment.OnListFragmentInteractionListener;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
+import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment.OnListFragmentInteractionListener;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
 
 import java.util.ArrayList;
@@ -18,13 +17,12 @@ import java.util.ArrayList;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class TrailStationRecyclerViewAdapter extends RecyclerView.Adapter<TrailStationRecyclerViewAdapter.ViewHolder> {
+public class TrailRecyclerViewAdapter extends RecyclerView.Adapter<TrailRecyclerViewAdapter.ViewHolder> {
 
-    private final ArrayList<TrailStation> mTrails;
+    private final ArrayList<Trail> mTrails;
     private final OnListFragmentInteractionListener mListener;
 
-
-    public TrailStationRecyclerViewAdapter(ArrayList<TrailStation> items, OnListFragmentInteractionListener listener) {
+    public TrailRecyclerViewAdapter(ArrayList<Trail> items, OnListFragmentInteractionListener listener) {
 
         this.mTrails = items;
         mListener = listener;
@@ -33,8 +31,7 @@ public class TrailStationRecyclerViewAdapter extends RecyclerView.Adapter<TrailS
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_trail_station, parent, false);
-
+                .inflate(R.layout.fragment_trail, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,6 +39,7 @@ public class TrailStationRecyclerViewAdapter extends RecyclerView.Adapter<TrailS
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mTrails.get(position);
         holder.mIdView.setText(mTrails.get(position).getName());
+        holder.mContentView.setText(mTrails.get(position).getUserId());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,23 +55,28 @@ public class TrailStationRecyclerViewAdapter extends RecyclerView.Adapter<TrailS
 
     @Override
     public int getItemCount() {
+        if (mTrails == null) {
+            return 0;
+        }
         return mTrails.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-        public TrailStation mItem;
+        public final TextView mContentView;
+        public Trail mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.trail_station_name);
+            mIdView = (TextView) view.findViewById(R.id.trail_name);
+            mContentView = (TextView) view.findViewById(R.id.trail_participant);
         }
 
         @Override
         public String toString() {
-            return super.toString() +  "'";
+            return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
 }

@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Fragment;
+package trailblaze.issft06.android.com.trailblaze.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -23,9 +23,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import trailblaze.issft06.android.com.trailblaze.App.App;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
+import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
 
 import static android.content.ContentValues.TAG;
