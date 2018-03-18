@@ -1,9 +1,8 @@
-package trailblaze.issft06.android.com.trailblaze.Activity;
+package trailblaze.issft06.android.com.trailblaze.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,9 +32,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.ArrayList;
 
-import trailblaze.issft06.android.com.trailblaze.App.App;
+import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.R;
-import trailblaze.issft06.android.com.trailblaze.model.User;
 
 
 public class LoginActivity extends Activity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener {

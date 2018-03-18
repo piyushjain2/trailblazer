@@ -27,7 +27,7 @@
             android:name=".activity.ParticipantTrailStation"
             android:label="@string/title_activity_participant_trail_station"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,7 +55,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity.UserRoleSelectionActivity"></activity>
+        <activity android:name=".activity.UserRoleSelectionActivity"></activity>
     </application>
 
 </manifest>
