@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trailblaze.issft06.android.com.trailblaze.R;
+import trailblaze.issft06.android.com.trailblaze.app.App;
 
 
 public class Tab3Discuss extends Fragment {
@@ -34,10 +35,11 @@ public class Tab3Discuss extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        if ( getArguments() != null ) {
-            TrailStationID = getArguments().getString("TrailStationID");
-        }
+//
+//        if ( getArguments() != null ) {
+//            TrailStationID = getArguments().getString("TrailStationID");
+//        }
+        TrailStationID = App.trailStation.getId();
 
         View rootView = inflater.inflate(R.layout.tab3_discuss, container, false);
 

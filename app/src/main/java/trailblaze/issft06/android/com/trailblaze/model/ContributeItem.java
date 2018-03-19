@@ -11,9 +11,16 @@ public class ContributeItem {
     private String trailStationId;
     private String url;
     private String desc;
+    private String contentType;
 
 
+    public String getContentType() {
+        return contentType;
+    }
 
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
 
     public String getUserId() {
         return userId;

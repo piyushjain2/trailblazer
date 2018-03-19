@@ -7,6 +7,7 @@ package trailblaze.issft06.android.com.trailblaze.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -45,14 +48,20 @@ public class Tab2Upload extends Fragment {
      FirebaseStorage mFirebaseStorage;
 
      private Button mUploadPhoto;
+     private Button mUploadPdf;
+     private Button mUploadVideo;
      private EditText mEditText;
      private StorageReference mPhotosStorageReference;
+    private StorageReference mViedeoStorageReference;
+    private StorageReference mDocumentSotrageReference;
      private RecyclerView mRecyclerView;
      private ContributeAdapter mContriubuteItemAdapter;
 
 
     public static final int RC_SIGN_IN = 1;
     private static final int RC_PHOTO_PICKER = 2;
+    private static final int RC_DOCUMENT_PICKER = 3;
+    private static final int RC_VIDEO_PICKER = 4;
     private CollectionReference mCollectionRef;
 
     @Override
@@ -63,6 +72,8 @@ public class Tab2Upload extends Fragment {
         mFirebaseFirestore = FirebaseFirestore.getInstance();
         mFirebaseStorage = FirebaseStorage.getInstance();
         mPhotosStorageReference = mFirebaseStorage.getReference().child("images");
+        mViedeoStorageReference = mFirebaseStorage.getReference().child("videos");
+        mDocumentSotrageReference = mFirebaseStorage.getReference().child("documents");
         mRecyclerView = rootView.findViewById(R.id.contributionsListView);
 
 
@@ -90,9 +101,11 @@ public class Tab2Upload extends Fragment {
 
 
 
-        mUploadPhoto = rootView.findViewById(R.id.photo_upload_button);
-        mEditText = rootView.findViewById(R.id.descriptionText);
 
+
+
+        mEditText = rootView.findViewById(R.id.descriptionText);
+        mUploadPhoto = rootView.findViewById(R.id.photo_upload_button);
         mUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +115,39 @@ public class Tab2Upload extends Fragment {
                 intent.setType("image/jpeg");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_PHOTO_PICKER);
+
+
+
+            }
+        });
+
+        mUploadPdf = rootView.findViewById(R.id.document_upload_button);
+        mUploadPdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("application/pdf");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_DOCUMENT_PICKER);
+
+
+
+            }
+        });
+
+
+        mUploadVideo = rootView.findViewById(R.id.video_upload_button);
+        mUploadVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("video/mp4");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_VIDEO_PICKER);
 
 
 
@@ -126,12 +172,72 @@ public class Tab2Upload extends Fragment {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // When the image has successfully uploaded, we get its download URL
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            String contentType = taskSnapshot.getMetadata().getContentType();
 
                             // Set the download URL to the message box, so that the user can send it to the database
                             ContributeItem contributeItem = new ContributeItem();
+                            contributeItem.setContentType(contentType);
                             contributeItem.setId("ci001");
                             contributeItem.setUserId(App.participant.getId());
-                            contributeItem.setDesc("Sample CI");
+                            contributeItem.setDesc(mEditText.getText().toString());
+                            contributeItem.setTrailStationId(App.trailStation.getId());
+                            contributeItem.setUrl(downloadUrl.toString());
+
+                            mFirebaseFirestore.collection("contributions").add(contributeItem);
+
+                        }
+                    });
+        }
+        else if (requestCode == RC_DOCUMENT_PICKER && resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+
+            // Get a reference to store file at chat_photos/<FILENAME>
+            StorageReference photoRef = mDocumentSotrageReference.child(uri.getLastPathSegment());
+
+
+            // Upload file to Firebase Storage
+            photoRef.putFile(uri)
+                    .addOnSuccessListener(this.getActivity(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // When the image has successfully uploaded, we get its download URL
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            String contentType = taskSnapshot.getMetadata().getContentType();
+
+                            // Set the download URL to the message box, so that the user can send it to the database
+                            ContributeItem contributeItem = new ContributeItem();
+                            contributeItem.setContentType(contentType);
+                            contributeItem.setId("ci001");
+                            contributeItem.setUserId(App.participant.getId());
+                            contributeItem.setDesc(mEditText.getText().toString());
+                            contributeItem.setTrailStationId(App.trailStation.getId());
+                            contributeItem.setUrl(downloadUrl.toString());
+
+                            mFirebaseFirestore.collection("contributions").add(contributeItem);
+
+                        }
+                    });
+        }
+        else if (requestCode == RC_VIDEO_PICKER && resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+
+            // Get a reference to store file at chat_photos/<FILENAME>
+            StorageReference photoRef = mViedeoStorageReference.child(uri.getLastPathSegment());
+
+
+            // Upload file to Firebase Storage
+            photoRef.putFile(uri)
+                    .addOnSuccessListener(this.getActivity(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // When the image has successfully uploaded, we get its download URL
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            String contentType = taskSnapshot.getMetadata().getContentType();
+
+                            // Set the download URL to the message box, so that the user can send it to the database
+                            ContributeItem contributeItem = new ContributeItem();
+                            contributeItem.setContentType(contentType);
+                            contributeItem.setId("ci001");
+                            contributeItem.setUserId(App.participant.getId());
+                            contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
 
