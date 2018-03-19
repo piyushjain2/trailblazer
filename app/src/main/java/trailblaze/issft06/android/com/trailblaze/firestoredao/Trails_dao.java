@@ -1,12 +1,10 @@
 package trailblaze.issft06.android.com.trailblaze.firestoredao;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,8 +38,8 @@ public class Trails_dao {
 
 
 
-    public Trails_dao(Context context) {
-        FirebaseApp.initializeApp(context);
+    public Trails_dao() {
+
         mdb = FirebaseFirestore.getInstance();
         mtrails = mdb.collection("trails");
         daoMgr = new FirestoredaoMgr();
@@ -126,32 +124,10 @@ public class Trails_dao {
 
 
     public Trail getTrailById(String trailID){
+        Trail trail = new Trail();
+        trail = mtrails.document(trailID).get().getResult().toObject(Trail.class);
 
-        final Trail[] trail = {new Trail()};
-
-        mtrails
-                .whereEqualTo("id", trailID)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-
-                                if(document != null && document.exists()) {
-                                     trail[0] = document.toObject(Trail.class);
-
-                                }
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-        //return object containing HashMap
-        return trail[0];
+        return trail;
 
     }
 

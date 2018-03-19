@@ -1,11 +1,11 @@
-package trailblaze.issft06.android.com.trailblaze.Activity;
+package trailblaze.issft06.android.com.trailblaze.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import trailblaze.issft06.android.com.trailblaze.App.App;
+import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.Trainer_trailList;
 import trailblaze.issft06.android.com.trailblaze.model.User;
@@ -38,7 +38,7 @@ public class UserRoleSelectionActivity extends AppCompatActivity implements View
                 break;
 
             case R.id.cv_user_selection_participant:
-                intent = new Intent(UserRoleSelectionActivity.this,ParticipantActivity.class);
+                intent = new Intent(UserRoleSelectionActivity.this, ParticipantActivity.class);
                 startActivity(intent);
                 finish();
                 break;

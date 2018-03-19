@@ -6,10 +6,29 @@ package trailblaze.issft06.android.com.trailblaze.model;
 
 public class ContributeItem {
     private String id;
+    private String userId;
     private String name;
     private String trailStationId;
     private String url;
     private String desc;
+    private String contentType;
+
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;

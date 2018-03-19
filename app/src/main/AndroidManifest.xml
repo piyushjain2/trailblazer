@@ -3,6 +3,8 @@
     package="trailblaze.issft06.android.com.trailblaze">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,22 +13,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".Trainer_trailList"
             android:label="@string/title_activity_trainer_trail_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.ParticipantActivity"
+            android:name=".activity.ParticipantActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.SearchTrailActivity" />
-        <activity android:name=".Activity.TrailDetailActivity" />
+        <activity android:name=".activity.SearchTrailActivity" />
+        <activity android:name=".activity.TrailDetailActivity" />
         <activity
-            android:name=".Activity.ParticipantTrailStation"
+            android:name=".activity.ParticipantTrailStation"
             android:label="@string/title_activity_participant_trail_station"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,7 +58,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity.UserRoleSelectionActivity"></activity>
+        <activity android:name=".activity.UserRoleSelectionActivity"></activity>
     </application>
 
 </manifest>
