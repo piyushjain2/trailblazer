@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Model;
+package trailblaze.issft06.android.com.trailblaze.model;
 
 /**
  * Created by Lenovo on 2/26/2018.

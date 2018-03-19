@@ -1,7 +1,6 @@
 package trailblaze.issft06.android.com.trailblaze.Activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -18,16 +17,12 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.concurrent.ExecutionException;
-
-import trailblaze.issft06.android.com.trailblaze.App.App;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
 import trailblaze.issft06.android.com.trailblaze.firestoredao.Trails_dao;

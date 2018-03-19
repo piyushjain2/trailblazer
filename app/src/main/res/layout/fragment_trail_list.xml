@@ -10,5 +10,5 @@
     android:layout_marginRight="16dp"
     android:layout_marginTop="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.craft1k.seft06.Fragment.TrailFragment"
+    tools:context="trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment"
     tools:listitem="@layout/fragment_trail" />

@@ -5,12 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import trailblaze.issft06.android.com.trailblaze.Activity.ParticipantActivity;
-import trailblaze.issft06.android.com.trailblaze.App.App;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
 
 public class MainActivity extends AppCompatActivity {
 

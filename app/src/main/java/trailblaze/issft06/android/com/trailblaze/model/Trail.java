@@ -1,6 +1,5 @@
-package trailblaze.issft06.android.com.trailblaze.Model;
+package trailblaze.issft06.android.com.trailblaze.model;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 

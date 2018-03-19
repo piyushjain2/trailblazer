@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="google_button_color">#c04f44</color>
+    <color name="fb_button_color">#0b5cc9</color>
+    <color name="White">#ffffff</color>
+
 </resources>

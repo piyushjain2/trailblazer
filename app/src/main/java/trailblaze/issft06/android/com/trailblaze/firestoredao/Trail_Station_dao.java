@@ -15,8 +15,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-
 import static android.content.ContentValues.TAG;
 
 /**
