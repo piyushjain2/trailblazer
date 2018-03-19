@@ -1,9 +1,9 @@
-package trailblaze.issft06.android.com.trailblaze.Activity;
+package trailblaze.issft06.android.com.trailblaze.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,12 +30,18 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import trailblaze.issft06.android.com.trailblaze.App.App;
+import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.R;
-import trailblaze.issft06.android.com.trailblaze.model.User;
+import trailblaze.issft06.android.com.trailblaze.model.Participant;
+
+import static android.content.ContentValues.TAG;
 
 
 public class LoginActivity extends Activity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener {
@@ -46,6 +52,9 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
     private static final int RC_SIGN_IN = 9001;
     private View facebookButton;
     private CallbackManager callbackManager;
+
+    FirebaseFirestore mdb ;
+    CollectionReference mUsers ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +180,22 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
                             App.user.setId(user.getUid());
                             App.user.setName(user.getDisplayName());
                             App.user.setDescription(user.getEmail().toString());
+
+                            mdb = FirebaseFirestore.getInstance();
+                            mUsers = mdb.collection("users");
+
+                            mUsers
+                                    .whereEqualTo("id",App.user.getId())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.getResult().getDocuments().isEmpty()) {
+                                                mUsers.add(App.user);
+                                            }
+                                        }
+                                    });
+
                             Intent intent = new Intent(LoginActivity.this,UserRoleSelectionActivity.class);
                             startActivity(intent);
                             finish();
@@ -203,6 +228,22 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
                             App.user.setId(user.getUid());
                             App.user.setName(user.getDisplayName());
                             App.user.setDescription(user.getEmail().toString());
+                            App.user.setProfileUrl(user.getPhotoUrl().toString());
+
+                            mdb = FirebaseFirestore.getInstance();
+                            mUsers = mdb.collection("users");
+
+                            mUsers
+                                    .whereEqualTo("id",App.user.getId())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                               @Override
+                                                               public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                   if (!task.isSuccessful()) {
+                                                                       mUsers.add(App.user);
+                                                                   }
+                                                               }
+                                                           });
                             Intent intent = new Intent(LoginActivity.this,UserRoleSelectionActivity.class);
                             startActivity(intent);
                             finish();

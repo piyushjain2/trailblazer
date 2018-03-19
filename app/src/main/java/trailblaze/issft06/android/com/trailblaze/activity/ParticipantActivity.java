@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Activity;
+package trailblaze.issft06.android.com.trailblaze.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -21,13 +21,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,14 +38,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import trailblaze.issft06.android.com.trailblaze.App.App;
+import trailblaze.issft06.android.com.trailblaze.Trainer_trailList;
+import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailStationFragment;
 import trailblaze.issft06.android.com.trailblaze.model.Participant;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
-import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
 
 
 import java.io.InputStream;
@@ -56,22 +56,20 @@ import static android.content.ContentValues.TAG;
 public class ParticipantActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TrailFragment.OnListFragmentInteractionListener,TrailStationFragment.OnListFragmentInteractionListener {
 
-    private Participant participant ;
-    private ArrayList<Trail> joinedTrail;
-//    private TrailManager trailManager ;
 
     private TextView mUserName;
     private ImageView mProfilePic;
+    private TextView mDescription;
+    private ProgressBar mProgressBar;
 
     private FloatingActionButton fab;
 
-    private RecyclerView mListTrail;
-    private TrailListAdapter mTrailListAdapter;
+    private String fragment = "TRAILS_LIST";
 
 
     FirebaseFirestore mdb ;
     CollectionReference mUsers ;
-    FirestoredaoMgr daoMgr ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +78,12 @@ public class ParticipantActivity extends AppCompatActivity
 
 
         // Get joined Trail
-        participant = (Participant) App.user;
-        joinedTrail = App.trailManager.getJoinedTrail(participant);
+
+
 
         FirebaseApp.initializeApp(this);
         mdb = FirebaseFirestore.getInstance();
         mUsers = mdb.collection("users");
-        daoMgr = new FirestoredaoMgr();
-
 
 
 //        mListTrail = (RecyclerView) findViewById(R.id.list_trail);
@@ -142,9 +138,12 @@ public class ParticipantActivity extends AppCompatActivity
 
         mProfilePic = (ImageView) headerView.findViewById(R.id.profile_picture);
         mUserName = (TextView) headerView.findViewById(R.id.user_name);
+        mDescription = (TextView) headerView.findViewById(R.id.user_email);
+
+        mProgressBar = (ProgressBar) this.findViewById(R.id.progressBar);
 
         mUsers
-                .whereEqualTo("id", "001")
+                .whereEqualTo("id", App.user.getId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -154,12 +153,14 @@ public class ParticipantActivity extends AppCompatActivity
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
                                 if(document != null && document.exists()) {
-                                    participant = document.toObject(Participant.class);
-                                    participant.setFirebaseId(document.getId());
+                                    App.participant = document.toObject(Participant.class);
+                                    App.participant.setFirebaseId(document.getId());
+
                                     Uri profilePictureURI =  Uri.parse(App.participant.getProfileUrl());
                                     new DownloadImageTask(mProfilePic)
                                             .execute(App.participant.getProfileUrl());
                                     mUserName.setText(App.participant.getName());
+                                    mDescription.setText(App.participant.getDescription());
 
                                     CollectionReference mJoinedTrails = mUsers.document(App.participant.getFirebaseId()).collection("joinedTrails");
                                     mJoinedTrails.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -177,6 +178,7 @@ public class ParticipantActivity extends AppCompatActivity
                                                         fragmentTransaction.commit();
                                                     }
                                                 }
+                                                mProgressBar.setVisibility(View.GONE);
                                             }
                                         }
                                     });
@@ -203,7 +205,15 @@ public class ParticipantActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (this.fragment == "TRAIL_DETAILS") {
+
+            Intent myIntent = new Intent(ParticipantActivity.this, ParticipantActivity.class);
+
+            ParticipantActivity.this.startActivity(myIntent);
+
+
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -235,7 +245,19 @@ public class ParticipantActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        switch (id){
+            case R.id.nav_trainer:
+                Intent intent = new Intent(ParticipantActivity.this,Trainer_trailList.class);
+                startActivity(intent);
+                finish();
+                break;
 
+            case R.id.nav_participant:
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -247,10 +269,12 @@ public class ParticipantActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Trail trail) {
 
-
+        this.fragment = "TRAIL_DETAILS";
+        mProgressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore mdb = FirebaseFirestore.getInstance();
         final CollectionReference mTrails = mdb.collection("trails");
         Log.d(TAG, trail.getId() );
+
 
         mTrails
                 .whereEqualTo("id", trail.getId())
@@ -282,10 +306,11 @@ public class ParticipantActivity extends AppCompatActivity
 
                                                 TrailStationFragment trailStationFragment = new TrailStationFragment();
 
-                                                trailStationFragment.setTrail(App.trail);
+
                                                 fragmentTransaction.replace(R.id.fragment_container, trailStationFragment);
                                                 fragmentTransaction.commit();
                                             }
+                                            mProgressBar.setVisibility(View.GONE);
                                         }
                                     });
                                 }
@@ -302,6 +327,8 @@ public class ParticipantActivity extends AppCompatActivity
         fab.setVisibility(View.INVISIBLE);
     }
 
+
+
     @Override
     public void onListFragmentInteraction(TrailStation trailStation) {
         Intent myIntent = new Intent(ParticipantActivity.this, ParticipantTrailStation.class);
@@ -310,6 +337,7 @@ public class ParticipantActivity extends AppCompatActivity
 
 
         myIntent.putExtra("trailId", trailStation.getId()); //Optional parameters
+        App.trailStation = trailStation;
         ParticipantActivity.this.startActivity(myIntent);
 
     }
@@ -334,8 +362,11 @@ public class ParticipantActivity extends AppCompatActivity
         }
 
         protected void onPostExecute(Bitmap result) {
-            Bitmap roundBitmap = getCroppedBitmap( result, 250);
-            mProfilePic.setImageBitmap(roundBitmap);
+            if (result != null) {
+                Bitmap roundBitmap = getCroppedBitmap(result, 250);
+                mProfilePic.setImageBitmap(roundBitmap);
+            }
+
 
         }
         private  Bitmap getCroppedBitmap( @NonNull Bitmap bmp, int radius )

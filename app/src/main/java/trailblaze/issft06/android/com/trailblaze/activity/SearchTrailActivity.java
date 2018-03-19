@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.Activity;
+package trailblaze.issft06.android.com.trailblaze.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,7 +73,7 @@ public class SearchTrailActivity extends AppCompatActivity {
         mError= (TextView) findViewById(R.id.search_trail_error_msg);
         mError.setVisibility(View.INVISIBLE);
 
-        mTrailDao = new Trails_dao(this);
+        mTrailDao = new Trails_dao();
 
         mSearchTrailButton.setOnClickListener(new View.OnClickListener() {
             @Override

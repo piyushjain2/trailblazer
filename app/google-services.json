@@ -15,11 +15,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "510604641564-751d6ml5nq5jsq98ikjnfge1o9hsl9ok.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "510604641564-hvhhd0vfecu8jn01g4oag9s7gddq352d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trailblaze.issft06.android.com.trailblaze",
+            "certificate_hash": "dbe61fa941e9147ca7ae3376aee26d0e7915f0c4"
+          }
         },
         {
-          "client_id": "510604641564-4mv5o20tn1asoqbkghqgo6snh0cbt1qi.apps.googleusercontent.com",
+          "client_id": "510604641564-14n2st3heagepd4hmcr18ju81tmdkmid.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trailblaze.issft06.android.com.trailblaze",
+            "certificate_hash": "2e6b86f23df1ae0c06846ea5ca52f13707ed1176"
+          }
+        },
+        {
+          "client_id": "510604641564-sfvthc9cqem8vh0ncg5in45njna2k6nn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "trailblaze.issft06.android.com.trailblaze",
@@ -27,7 +39,7 @@
           }
         },
         {
-          "client_id": "510604641564-1cv9pnctomlnso1esa1ibrimbraa6plt.apps.googleusercontent.com",
+          "client_id": "510604641564-44blgmj8pblvugn3isteqiq25f9jsuel.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "trailblaze.issft06.android.com.trailblaze",
@@ -52,7 +64,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "510604641564-751d6ml5nq5jsq98ikjnfge1o9hsl9ok.apps.googleusercontent.com",
+              "client_id": "510604641564-ong20mitr83u7rn37tune28k6v7lv79m.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
