@@ -2,6 +2,7 @@ package trailblaze.issft06.android.com.trailblaze.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,13 +27,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.facebook.login.Login;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,21 +59,22 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 public class ParticipantActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, TrailFragment.OnListFragmentInteractionListener,TrailStationFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, TrailFragment.OnListFragmentInteractionListener, TrailStationFragment.OnListFragmentInteractionListener {
 
 
     private TextView mUserName;
     private ImageView mProfilePic;
     private TextView mDescription;
     private ProgressBar mProgressBar;
-
+    private FirebaseAuth mauth;
+    private ProgressDialog mProgressDialog;
     private FloatingActionButton fab;
 
     private String fragment = "TRAILS_LIST";
 
 
-    FirebaseFirestore mdb ;
-    CollectionReference mUsers ;
+    FirebaseFirestore mdb;
+    CollectionReference mUsers;
 
 
     @Override
@@ -76,9 +82,9 @@ public class ParticipantActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_activity);
 
-
+        mauth = FirebaseAuth.getInstance();
+        mProgressDialog = new ProgressDialog(this);
         // Get joined Trail
-
 
 
         FirebaseApp.initializeApp(this);
@@ -110,8 +116,6 @@ public class ParticipantActivity extends AppCompatActivity
 //        mTrailListAdapter.setTrailData(joinedTrail);
 
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -136,6 +140,19 @@ public class ParticipantActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
 
+        ImageButton imageButton = navigationView.findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.setMessage("Logging Out");
+                mProgressDialog.show();
+                mauth.signOut();
+                LoginManager.getInstance().logOut();
+
+                startActivity(new Intent(ParticipantActivity.this, LoginActivity.class));
+            }
+        });
+
         mProfilePic = (ImageView) headerView.findViewById(R.id.profile_picture);
         mUserName = (TextView) headerView.findViewById(R.id.user_name);
         mDescription = (TextView) headerView.findViewById(R.id.user_email);
@@ -152,13 +169,13 @@ public class ParticipantActivity extends AppCompatActivity
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                if(document != null && document.exists()) {
+                                if (document != null && document.exists()) {
                                     App.participant = document.toObject(Participant.class);
                                     App.participant.setFirebaseId(document.getId());
 
-                                    Uri profilePictureURI =  Uri.parse(App.participant.getProfileUrl());
+                                    /*Uri profilePictureURI = Uri.parse(App.participant.getProfileUrl());
                                     new DownloadImageTask(mProfilePic)
-                                            .execute(App.participant.getProfileUrl());
+                                            .execute(App.participant.getProfileUrl());*/
                                     mUserName.setText(App.participant.getName());
                                     mDescription.setText(App.participant.getDescription());
 
@@ -167,8 +184,8 @@ public class ParticipantActivity extends AppCompatActivity
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
-                                                for(DocumentSnapshot document: task.getResult()) {
-                                                    if(document != null && document.exists()) {
+                                                for (DocumentSnapshot document : task.getResult()) {
+                                                    if (document != null && document.exists()) {
                                                         App.participant.getJoinedTrail().add(document.get("id").toString());
                                                         FragmentManager fm = getFragmentManager();
                                                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -191,13 +208,7 @@ public class ParticipantActivity extends AppCompatActivity
                 });
 
 
-
-
-
-
-
     }
-
 
 
     @Override
@@ -212,8 +223,7 @@ public class ParticipantActivity extends AppCompatActivity
             ParticipantActivity.this.startActivity(myIntent);
 
 
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -245,9 +255,9 @@ public class ParticipantActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case R.id.nav_trainer:
-                Intent intent = new Intent(ParticipantActivity.this,Trainer_trailList.class);
+                Intent intent = new Intent(ParticipantActivity.this, Trainer_trailList.class);
                 startActivity(intent);
                 finish();
                 break;
@@ -265,7 +275,6 @@ public class ParticipantActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void onListFragmentInteraction(Trail trail) {
 
@@ -273,7 +282,7 @@ public class ParticipantActivity extends AppCompatActivity
         mProgressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore mdb = FirebaseFirestore.getInstance();
         final CollectionReference mTrails = mdb.collection("trails");
-        Log.d(TAG, trail.getId() );
+        Log.d(TAG, trail.getId());
 
 
         mTrails
@@ -286,17 +295,17 @@ public class ParticipantActivity extends AppCompatActivity
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 //putting in a Map and returning the map
-                                if(document != null && document.exists()) {
-                                     App.trail  = document.toObject(Trail.class);
-                                     App.trail.setFirebaseId(document.getId());
+                                if (document != null && document.exists()) {
+                                    App.trail = document.toObject(Trail.class);
+                                    App.trail.setFirebaseId(document.getId());
 
                                     CollectionReference mTrailStations = mTrails.document(App.trail.getFirebaseId()).collection("trailStations");
                                     mTrailStations.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
-                                                for(DocumentSnapshot document: task.getResult()) {
-                                                    if(document != null && document.exists()) {
+                                                for (DocumentSnapshot document : task.getResult()) {
+                                                    if (document != null && document.exists()) {
                                                         App.trail.getTrailStations().add(document.get("id").toString());
 
                                                     }
@@ -322,11 +331,8 @@ public class ParticipantActivity extends AppCompatActivity
                 });
 
 
-
-
         fab.setVisibility(View.INVISIBLE);
     }
-
 
 
     @Override
@@ -341,6 +347,7 @@ public class ParticipantActivity extends AppCompatActivity
         ParticipantActivity.this.startActivity(myIntent);
 
     }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
 
@@ -369,37 +376,34 @@ public class ParticipantActivity extends AppCompatActivity
 
 
         }
-        private  Bitmap getCroppedBitmap( @NonNull Bitmap bmp, int radius )
-        {
+
+        private Bitmap getCroppedBitmap(@NonNull Bitmap bmp, int radius) {
             Bitmap bitmap;
 
-            if ( bmp.getWidth( ) != radius || bmp.getHeight( ) != radius )
-            {
-                float smallest = Math.min( bmp.getWidth( ), bmp.getHeight( ) );
+            if (bmp.getWidth() != radius || bmp.getHeight() != radius) {
+                float smallest = Math.min(bmp.getWidth(), bmp.getHeight());
                 float factor = smallest / radius;
-                bitmap = Bitmap.createScaledBitmap( bmp, ( int ) ( bmp.getWidth( ) / factor ), ( int ) ( bmp.getHeight( ) / factor ), false );
-            }
-            else
-            {
+                bitmap = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() / factor), (int) (bmp.getHeight() / factor), false);
+            } else {
                 bitmap = bmp;
             }
 
-            Bitmap output = Bitmap.createBitmap( radius, radius,
-                    Bitmap.Config.ARGB_8888 );
-            Canvas canvas = new Canvas( output );
+            Bitmap output = Bitmap.createBitmap(radius, radius,
+                    Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(output);
 
-            final Paint paint = new Paint( );
-            final Rect rect = new Rect( 0, 0, radius, radius );
+            final Paint paint = new Paint();
+            final Rect rect = new Rect(0, 0, radius, radius);
 
-            paint.setAntiAlias( true );
-            paint.setFilterBitmap( true );
-            paint.setDither( true );
-            canvas.drawARGB( 0, 0, 0, 0 );
-            paint.setColor( Color.parseColor( "#BAB399" ) );
-            canvas.drawCircle( radius / 2 + 0.7f,
-                    radius / 2 + 0.7f, radius / 2 + 0.1f, paint );
-            paint.setXfermode( new PorterDuffXfermode( PorterDuff.Mode.SRC_IN ) );
-            canvas.drawBitmap( bitmap, rect, rect, paint );
+            paint.setAntiAlias(true);
+            paint.setFilterBitmap(true);
+            paint.setDither(true);
+            canvas.drawARGB(0, 0, 0, 0);
+            paint.setColor(Color.parseColor("#BAB399"));
+            canvas.drawCircle(radius / 2 + 0.7f,
+                    radius / 2 + 0.7f, radius / 2 + 0.1f, paint);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+            canvas.drawBitmap(bitmap, rect, rect, paint);
 
             return output;
         }
