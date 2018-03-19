@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -81,7 +82,8 @@ public class ParticipantActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_activity);
 
-
+        mauth = FirebaseAuth.getInstance();
+        mProgressDialog = new ProgressDialog(this);
         // Get joined Trail
 
 
@@ -146,6 +148,8 @@ public class ParticipantActivity extends AppCompatActivity
                 mProgressDialog.show();
                 mauth.signOut();
                 LoginManager.getInstance().logOut();
+
+                startActivity(new Intent(ParticipantActivity.this, LoginActivity.class));
             }
         });
 
@@ -169,9 +173,9 @@ public class ParticipantActivity extends AppCompatActivity
                                     App.participant = document.toObject(Participant.class);
                                     App.participant.setFirebaseId(document.getId());
 
-                                    Uri profilePictureURI = Uri.parse(App.participant.getProfileUrl());
+                                    /*Uri profilePictureURI = Uri.parse(App.participant.getProfileUrl());
                                     new DownloadImageTask(mProfilePic)
-                                            .execute(App.participant.getProfileUrl());
+                                            .execute(App.participant.getProfileUrl());*/
                                     mUserName.setText(App.participant.getName());
                                     mDescription.setText(App.participant.getDescription());
 
