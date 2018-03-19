@@ -14,8 +14,8 @@
     <string name="tab_text_4">Activity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="instructionTitle">Instruction:</string>
-    <string name="instructionText">You need to take a photo of this location and upload it</string>
-    <string name="locationText">Location:</string>
+    <string name="instructionText" />
+    <string name="locationText">Station Name:</string>
     <string name="live_activities">Live Activities</string>
     <string name="discussionText">Discussion</string>
 
@@ -26,6 +26,7 @@
     <string name="todo">logo</string>
     <string name="login">LOGIN</string>
     <string name="sendingButton">Send</string>
+    <string name="ptcp_station_name" />
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
 </resources>

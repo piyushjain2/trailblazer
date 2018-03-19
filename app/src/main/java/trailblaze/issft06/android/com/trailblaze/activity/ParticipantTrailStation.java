@@ -29,9 +29,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
+import java.util.Calendar;
 
 
 import trailblaze.issft06.android.com.trailblaze.R;
+
 
 public class ParticipantTrailStation extends AppCompatActivity {
 
@@ -39,7 +41,7 @@ public class ParticipantTrailStation extends AppCompatActivity {
     private FirebaseFirestore mDocRef = FirebaseFirestore.getInstance();
 
 //    need to update here
-    private String TrailStationID = "1234567x";
+    private String TrailStationID = "20180205-ExampleSecond";
     private String UserID = "Dinh";
 
     /**
@@ -93,13 +95,16 @@ public class ParticipantTrailStation extends AppCompatActivity {
         Map<String, Object> dataToSave = new HashMap<>();
 
         Date now = new Date();
+        Calendar timeInMillis = Calendar.getInstance();
+        timeInMillis.setTime(now);
+        String timeInString = Long.toString(timeInMillis.getTimeInMillis());
 
         dataToSave.put("TrailStationID", TrailStationID);
         dataToSave.put("UserID", UserID);
         dataToSave.put("Msg", inputText);
         dataToSave.put("Time", now);
 
-        mDocRef.collection("post").document(now.toString()).set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mDocRef.collection("post").document(timeInString).set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Has been sent");
@@ -160,9 +165,11 @@ public class ParticipantTrailStation extends AppCompatActivity {
             switch (position) {
                 case 0:
                     Tab1Task tab1 = new Tab1Task();
+                    tab1.setArguments(params);
                     return tab1;
                 case 1:
                     Tab2Upload tab2 = new Tab2Upload();
+                    tab2.setArguments(params);
                     return tab2;
                 case 2:
                     Tab3Discuss tab3 = new Tab3Discuss();
@@ -170,11 +177,11 @@ public class ParticipantTrailStation extends AppCompatActivity {
                     return tab3;
                 case 3:
                     Tab4Activity tab4 = new Tab4Activity();
+                    tab4.setArguments(params);
                     return tab4;
                 default:
                     return null;
             }
-
         }
 
         @Override
