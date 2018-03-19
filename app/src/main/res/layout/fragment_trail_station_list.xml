@@ -14,6 +14,11 @@
         android:layout_margin="16dp"
         android:textSize="50dp"
         android:text="Trail Name"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unjoin the Tral!"
+        android:id="@+id/unjoin_trail"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -25,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Trail Description:"/>
+        android:text="List of Station:"/>
 
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

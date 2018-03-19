@@ -5,12 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.ArrayList;
-
-import trailblaze.issft06.android.com.trailblaze.Activity.ParticipantActivity;
-import trailblaze.issft06.android.com.trailblaze.App.App;
-import trailblaze.issft06.android.com.trailblaze.Model.Trail;
-import trailblaze.issft06.android.com.trailblaze.Model.TrailStation;
+import trailblaze.issft06.android.com.trailblaze.activity.ParticipantActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,22 +13,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList<Trail> joinedTrail = new ArrayList<Trail>();
-        Trail trailOne = new Trail("trail001","002","Utown",null,null);
-        Trail trailTwo = new Trail("trail002","003","Iss",null,null);
-
-        App.trailManager.addTrail(trailOne);
-        App.trailManager.addTrail(trailTwo);
-
-        App.trailManager.addParticipantTrail(App.participant,trailOne);
-        App.trailManager.addParticipantTrail(App.participant,trailTwo);
-
-
-        // TODO modify with real Firebase Data
-
-        TrailStation trailStation = new TrailStation("001","Utown","001",null,"Go there an do nothing",1);
-
-        trailOne.addTrailStation(trailStation);
+//        ArrayList<Trail> joinedTrail = new ArrayList<Trail>();
+//        Trail trailOne = new Trail();
+//        Trail trailTwo = new Trail();
+//
+//        App.trailManager.addTrail(trailOne);
+//        App.trailManager.addTrail(trailTwo);
+//
+//        App.trailManager.addParticipantTrail(App.participant,trailOne);
+//        App.trailManager.addParticipantTrail(App.participant,trailTwo);
+//
+//
+//        // TODO modify with real Firebase Data
+//
+//        TrailStation trailStation = new TrailStation("001","Utown","001",null,"Go there an do nothing",1);
+//
+//        trailOne.addTrailStation(trailStation);
 
         setContentView(R.layout.activity_main);
     }
