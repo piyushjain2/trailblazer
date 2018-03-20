@@ -32,12 +32,6 @@ public class App extends Application {
         super.onCreate();
         // Get User from Firebase
 
-
-
-
-
-
     }
-
 
 }

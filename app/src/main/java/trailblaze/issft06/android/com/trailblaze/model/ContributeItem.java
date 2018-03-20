@@ -1,5 +1,8 @@
 package trailblaze.issft06.android.com.trailblaze.model;
 
+
+import java.util.Date;
+
 /**
  * Created by Lenovo on 2/26/2018.
  */
@@ -13,6 +16,15 @@ public class ContributeItem {
     private String desc;
     private String contentType;
 
+    private Date cTime;
+
+    public void setcTime(Date cTime) {
+        this.cTime = cTime;
+    }
+
+    public Date getcTime() {
+        return cTime;
+    }
 
     public String getContentType() {
         return contentType;
