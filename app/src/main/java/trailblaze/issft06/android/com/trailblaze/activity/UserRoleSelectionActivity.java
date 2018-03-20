@@ -32,7 +32,7 @@ public class UserRoleSelectionActivity extends AppCompatActivity implements View
         Intent intent ;
         switch (view.getId()){
             case R.id.cv_user_selection_trainer:
-                intent = new Intent(UserRoleSelectionActivity.this,Trainer_trailList.class);
+                intent = new Intent(UserRoleSelectionActivity.this,TrainerTrailActivity.class);
                 startActivity(intent);
                 finish();
                 break;

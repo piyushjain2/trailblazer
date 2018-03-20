@@ -13,8 +13,7 @@ public class Trail {
     public static final String TIME_FORMAT = "d-MMM-yyyy H:mm";
 
     private String   id;
-
-    private String userId; // created user
+    private String userID; // created user
     private String name;
     private Date    date;
     private Date timestamp;
@@ -53,11 +52,11 @@ public class Trail {
     }
 
     public String getUserId() {
-        return userId;
+        return userID;
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userID = userId;
     }
 
     public String getName() {
