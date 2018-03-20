@@ -62,10 +62,10 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
         setContentView(R.layout.activity_login);
 
 
-        //Google Signin Button
         googlePlusButton =  findViewById(R.id.login_google_button);
         googlePlusButton.setOnClickListener(this);
         // Configure Google Sign In
+        //Google Signin Button
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
