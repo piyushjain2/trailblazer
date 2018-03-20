@@ -5,7 +5,8 @@
     <string name="action_about">About Us</string>
     <string name="title_activity_trainer_trail_list">Trainer Trail List</string>
     <string name="button">Trainer Trail List</string>
-    <string name="action_settings">Setting</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_add_trail">Add Trail</string>
     <string name="title_activity_main2">Participant</string>
     <string name="title_activity_participant_trail_station">ParticipantTrailStation</string>
     <string name="tab_text_1">Task</string>
@@ -28,6 +29,10 @@
     <string name="googlelogin">Google Login</string>
     <string name="sendingButton">Send</string>
     <string name="ptcp_station_name" />
+    <string name="prompt_trail_name">Trail Name</string>
+    <string name="prompt_trail_date_ddmmyy">Trail Date ddMMYY</string>
+    <string name="add_trail">Add New Trail</string>
+    <string name="add_trail_station">Add New Trail Station</string>
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
 </resources>
