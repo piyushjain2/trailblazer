@@ -1,5 +1,7 @@
 package trailblaze.issft06.android.com.trailblaze;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,9 +14,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+
+import trailblaze.issft06.android.com.trailblaze.activity.LoginActivity;
+import trailblaze.issft06.android.com.trailblaze.activity.ParticipantActivity;
 
 public class Trainer_trailList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FirebaseAuth mauth;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +34,9 @@ public class Trainer_trailList extends AppCompatActivity
         setContentView(R.layout.activity_trainer_trail_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mauth = FirebaseAuth.getInstance();
+        mProgressDialog = new ProgressDialog(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +55,19 @@ public class Trainer_trailList extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ImageButton imageButton = navigationView.findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.setMessage("Logging Out");
+                mProgressDialog.show();
+                mauth.signOut();
+                LoginManager.getInstance().logOut();
+
+                startActivity(new Intent(Trainer_trailList.this, LoginActivity.class));
+            }
+        });
     }
 
     @Override

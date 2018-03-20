@@ -33,6 +33,8 @@ import java.util.Calendar;
 
 
 import trailblaze.issft06.android.com.trailblaze.R;
+import trailblaze.issft06.android.com.trailblaze.app.App;
+import trailblaze.issft06.android.com.trailblaze.model.User;
 
 
 public class ParticipantTrailStation extends AppCompatActivity {
@@ -41,8 +43,8 @@ public class ParticipantTrailStation extends AppCompatActivity {
     private FirebaseFirestore mDocRef = FirebaseFirestore.getInstance();
 
 //    need to update here
-    private String TrailStationID = "20180205-ExampleSecond";
-    private String UserID = "Dinh";
+    private String TrailStationID ;
+    private String UserID ;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -61,6 +63,9 @@ public class ParticipantTrailStation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        UserID = App.participant.getId();
+        TrailStationID = App.trailStation.getId();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant_trail_station);

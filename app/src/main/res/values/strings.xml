@@ -24,7 +24,8 @@
     <string name="fb_login_protocol_scheme">fb1884500165169162</string>
     <string name="action_switch_role">Switch Role</string>
     <string name="todo">logo</string>
-    <string name="login">LOGIN</string>
+    <string name="fblogin">Facebook Login</string>
+    <string name="googlelogin">Google Login</string>
     <string name="sendingButton">Send</string>
     <string name="ptcp_station_name" />
     <item name="visible" type="id"/>
