@@ -4,6 +4,7 @@ package trailblaze.issft06.android.com.trailblaze.activity;
  * Created by nhatdx on 13/3/18.
  */
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -46,6 +47,7 @@ public class Tab3Discuss extends Fragment {
         View rootView = inflater.inflate(R.layout.tab3_discuss, container, false);
 
         listView = rootView.findViewById(R.id.list_of_messages);
+
 
         // Showing messages in real time
         mDocRef.collection("post").addSnapshotListener(new EventListener<QuerySnapshot>() {

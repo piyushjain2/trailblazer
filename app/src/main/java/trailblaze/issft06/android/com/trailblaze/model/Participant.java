@@ -10,16 +10,16 @@ public class Participant extends User {
 
     public Participant() {
         super();
-        joinedTrail = new ArrayList<String>();
+        joinedTrail = new ArrayList<Trail>();
     }
 
-    private ArrayList<String> joinedTrail;
+    private ArrayList<Trail> joinedTrail;
 
-    public ArrayList<String> getJoinedTrail() {
+    public ArrayList<Trail> getJoinedTrail() {
         return joinedTrail;
     }
 
-    public void setJoinedTrail(ArrayList<String> joinedTrail) {
+    public void setJoinedTrail(ArrayList<Trail> joinedTrail) {
         this.joinedTrail = joinedTrail;
     }
 

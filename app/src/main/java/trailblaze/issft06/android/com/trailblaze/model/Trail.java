@@ -13,11 +13,11 @@ public class Trail {
     public static final String TIME_FORMAT = "d-MMM-yyyy H:mm";
 
     private String   id;
-    private String userID; // created user
+    private String userId; // created user
     private String name;
     private Date    date;
     private Date timestamp;
-    private ArrayList<String> trailStations;
+    private ArrayList<TrailStation> trailStations;
 
 
     private String firebaseId;
@@ -32,7 +32,7 @@ public class Trail {
 
     public Trail() {
 
-        trailStations = new ArrayList<String>();
+        trailStations = new ArrayList<TrailStation>();
     }
 
     public static String getDateFormat() {
@@ -52,11 +52,11 @@ public class Trail {
     }
 
     public String getUserId() {
-        return userID;
+        return userId;
     }
 
     public void setUserId(String userId) {
-        this.userID = userId;
+        this.userId = userId;
     }
 
     public String getName() {
@@ -83,11 +83,13 @@ public class Trail {
         this.timestamp = timestamp;
     }
 
-    public ArrayList<String> getTrailStations() {
+    public ArrayList<TrailStation> getTrailStations() {
         return trailStations;
     }
 
-    public void setTrailStations(ArrayList<String> trailStations) {
+
+
+    public void setTrailStations(ArrayList<TrailStation> trailStations) {
         this.trailStations = trailStations;
     }
 }

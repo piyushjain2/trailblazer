@@ -44,8 +44,6 @@ public class TrailStationFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-
-
     private static TextView  mTextView;
     private static ImageView mImageView;
     private  Button mUnjoinTrail;
@@ -68,17 +66,12 @@ public class TrailStationFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
-
-
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -100,38 +93,11 @@ public class TrailStationFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            //TODO Get Trail by id replace
+            //Get joint Trail
 
             FirebaseFirestore mdb = FirebaseFirestore.getInstance();
-            CollectionReference mTrails = mdb.collection("trailStations");
-            final ArrayList<TrailStation> trailStations = new ArrayList<TrailStation>();
-            for(String id : App.trail.getTrailStations() ) {
-                mTrails
-                        .whereEqualTo("id", id)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (DocumentSnapshot document : task.getResult()) {
-                                        Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                        if (document != null && document.exists()) {
-                                            TrailStation trailStation = document.toObject(TrailStation.class);
-
-                                                trailStations.add(trailStation);
-                                        }
-                                    }
-
-                                    recyclerView.setAdapter(new TrailStationRecyclerViewAdapter(trailStations, mListener));
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                }
-
-
-                            }
-                        });
-            }
+            recyclerView.setAdapter(new TrailStationRecyclerViewAdapter(App.trail.getTrailStations(), mListener));
 
             mUnjoinTrail = (Button) view.findViewById(R.id.unjoin_trail);
 
@@ -143,7 +109,7 @@ public class TrailStationFragment extends Fragment {
                     FirebaseFirestore mdb = FirebaseFirestore.getInstance();
                     final CollectionReference mUsers = mdb.collection("users");
                     mUsers
-                            .whereEqualTo("id", App.participant.getId())
+                            .whereEqualTo("id", App.user.getId())
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override

@@ -82,7 +82,7 @@ public class Tab2Upload extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         final ArrayList<ContributeItem> contributeItems = new ArrayList<ContributeItem>();
         mCollectionRef = mFirebaseFirestore.collection("contributions");
-        mCollectionRef.whereEqualTo("userId",App.participant.getId())
+        mCollectionRef.whereEqualTo("userId",App.user.getId())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -182,7 +182,7 @@ public class Tab2Upload extends Fragment {
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
                             contributeItem.setId("ci001");
-                            contributeItem.setUserId(App.participant.getId());
+                            contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
@@ -214,7 +214,7 @@ public class Tab2Upload extends Fragment {
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
                             contributeItem.setId("ci001");
-                            contributeItem.setUserId(App.participant.getId());
+                            contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
@@ -244,7 +244,7 @@ public class Tab2Upload extends Fragment {
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
                             contributeItem.setId("ci001");
-                            contributeItem.setUserId(App.participant.getId());
+                            contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());

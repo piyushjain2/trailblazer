@@ -7,11 +7,11 @@ import java.util.ArrayList;
  */
 
 public class Trainer extends User {
-    private ArrayList<String> createdTrails;
+    private ArrayList<Trail> createdTrails;
 
     public Trainer() {
         super();
-        createdTrails = new ArrayList<String>();
+        createdTrails = new ArrayList<Trail>();
     }
 
     public void createTrail() {
@@ -22,7 +22,7 @@ public class Trainer extends User {
         // TODO (3) implement create post function
     }
 
-    public ArrayList<String> getCreatedTrails() {
+    public ArrayList<Trail> getCreatedTrails() {
         return createdTrails;
     }
 }

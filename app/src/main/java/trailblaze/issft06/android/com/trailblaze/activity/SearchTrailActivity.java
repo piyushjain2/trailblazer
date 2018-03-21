@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
@@ -48,7 +49,7 @@ public class SearchTrailActivity extends AppCompatActivity {
     private TextView mTrailDescription;
     private TextView mError;
 
-    private Trails_dao mTrailDao;
+
 
     FirebaseFirestore mdb =FirebaseFirestore.getInstance() ;
     CollectionReference mtrails =mdb.collection("trails");
@@ -73,7 +74,6 @@ public class SearchTrailActivity extends AppCompatActivity {
         mError= (TextView) findViewById(R.id.search_trail_error_msg);
         mError.setVisibility(View.INVISIBLE);
 
-        mTrailDao = new Trails_dao();
 
         mSearchTrailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +95,7 @@ public class SearchTrailActivity extends AppCompatActivity {
                                             Trail trail = document.toObject(Trail.class);
                                             mTrailName.setText(trail.getName());
                                             mResult.setVisibility(View.VISIBLE);
+                                            App.trail = trail;
                                         }
                                     }
                                 } else {

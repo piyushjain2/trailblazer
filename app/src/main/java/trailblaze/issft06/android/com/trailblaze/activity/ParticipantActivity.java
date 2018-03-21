@@ -70,26 +70,34 @@ public class ParticipantActivity extends AppCompatActivity
     private ProgressDialog mProgressDialog;
     private FloatingActionButton fab;
 
-    private String fragment = "TRAILS_LIST";
+    private Participant participant;
+
+    private static final String TRAILS_LIST = "TRAIL_LIST";
+    private static final String TRAIL_DETAIL = "TRAIL_DETAIL";
+
+    private String fragment ;
 
 
-    FirebaseFirestore mdb;
-    CollectionReference mUsers;
+    private FirebaseFirestore mdb;
+    private CollectionReference mUsers;
+    private CollectionReference mTrails;
+    private CollectionReference mTrailStations;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_activity);
-
+        fragment = TRAILS_LIST;
         mauth = FirebaseAuth.getInstance();
         mProgressDialog = new ProgressDialog(this);
         // Get joined Trail
-
+        participant = new Participant();
 
         FirebaseApp.initializeApp(this);
         mdb = FirebaseFirestore.getInstance();
         mUsers = mdb.collection("users");
+        mTrails = mdb.collection("trails");
 
 
 //        mListTrail = (RecyclerView) findViewById(R.id.list_trail);
@@ -170,31 +178,36 @@ public class ParticipantActivity extends AppCompatActivity
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
                                 if (document != null && document.exists()) {
-                                    App.participant = document.toObject(Participant.class);
-                                    App.participant.setFirebaseId(document.getId());
+                                    participant = document.toObject(Participant.class);
+                                    participant.setFirebaseId(document.getId());
 
                                     /*Uri profilePictureURI = Uri.parse(App.participant.getProfileUrl());
                                     new DownloadImageTask(mProfilePic)
                                             .execute(App.participant.getProfileUrl());*/
-                                    mUserName.setText(App.participant.getName());
-                                    mDescription.setText(App.participant.getDescription());
+                                    mUserName.setText(participant.getName());
+                                    mDescription.setText(participant.getDescription());
 
-                                    CollectionReference mJoinedTrails = mUsers.document(App.participant.getFirebaseId()).collection("joinedTrails");
+                                    CollectionReference mJoinedTrails = mUsers.document(participant.getFirebaseId()).collection("joinedTrails");
                                     mJoinedTrails.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 for (DocumentSnapshot document : task.getResult()) {
                                                     if (document != null && document.exists()) {
-                                                        App.participant.getJoinedTrail().add(document.get("id").toString());
-                                                        FragmentManager fm = getFragmentManager();
-                                                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                                                        participant.getJoinedTrail().add(document.toObject(Trail.class));
 
-                                                        TrailFragment trailFragment = new TrailFragment();
-                                                        fragmentTransaction.replace(R.id.fragment_container, trailFragment);
-                                                        fragmentTransaction.commit();
                                                     }
                                                 }
+                                                App.user = participant;
+
+
+                                                FragmentManager fm = getFragmentManager();
+                                                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+                                                TrailFragment trailFragment = new TrailFragment();
+                                                trailFragment.setTrails(participant.getJoinedTrail());
+                                                fragmentTransaction.replace(R.id.fragment_container, trailFragment);
+                                                fragmentTransaction.commit();
                                                 mProgressBar.setVisibility(View.GONE);
                                             }
                                         }
@@ -208,6 +221,7 @@ public class ParticipantActivity extends AppCompatActivity
                 });
 
 
+
     }
 
 
@@ -216,7 +230,7 @@ public class ParticipantActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (this.fragment == "TRAIL_DETAILS") {
+        } else if (this.fragment == TRAIL_DETAIL) {
 
             Intent myIntent = new Intent(ParticipantActivity.this, ParticipantActivity.class);
 
@@ -278,55 +292,35 @@ public class ParticipantActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Trail trail) {
 
-        this.fragment = "TRAIL_DETAILS";
+        this.fragment = TRAIL_DETAIL;
         mProgressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore mdb = FirebaseFirestore.getInstance();
         final CollectionReference mTrails = mdb.collection("trails");
         Log.d(TAG, trail.getId());
 
 
-        mTrails
-                .whereEqualTo("id", trail.getId())
+        mTrailStations = mdb.collection("trailStations");
+        mTrailStations
+                .whereEqualTo("trailId",trail.getId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                //putting in a Map and returning the map
                                 if (document != null && document.exists()) {
-                                    App.trail = document.toObject(Trail.class);
-                                    App.trail.setFirebaseId(document.getId());
-
-                                    CollectionReference mTrailStations = mTrails.document(App.trail.getFirebaseId()).collection("trailStations");
-                                    mTrailStations.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                for (DocumentSnapshot document : task.getResult()) {
-                                                    if (document != null && document.exists()) {
-                                                        App.trail.getTrailStations().add(document.get("id").toString());
-
-                                                    }
-                                                }
-                                                FragmentManager fm = getFragmentManager();
-                                                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-
-                                                TrailStationFragment trailStationFragment = new TrailStationFragment();
-
-
-                                                fragmentTransaction.replace(R.id.fragment_container, trailStationFragment);
-                                                fragmentTransaction.commit();
-                                            }
-                                            mProgressBar.setVisibility(View.GONE);
-                                        }
-                                    });
+                                    App.trail.getTrailStations().add(document.toObject(TrailStation.class));
                                 }
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            FragmentManager fm = getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+                            TrailStationFragment trailStationFragment = new TrailStationFragment();
+
+                            fragmentTransaction.replace(R.id.fragment_container, trailStationFragment);
+                            fragmentTransaction.commit();
                         }
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
 
@@ -342,7 +336,7 @@ public class ParticipantActivity extends AppCompatActivity
 //        String trailId = mSearchText.getText().toString();
 
 
-        myIntent.putExtra("trailId", trailStation.getId()); //Optional parameters
+        myIntent.putExtra("trailStaionId", trailStation.getId()); //Optional parameters
         App.trailStation = trailStation;
         ParticipantActivity.this.startActivity(myIntent);
 

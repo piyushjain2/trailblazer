@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
+import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.model.User;
 
 import java.util.HashMap;
@@ -51,17 +52,26 @@ public class AddTrailStationActivity extends AppCompatActivity implements View.O
             final EditText loc = findViewById(R.id.trail_station_GPSLocation);
             final EditText name = findViewById(R.id.trail_station_name);
             final EditText instructions = findViewById(R.id.instructions);
-            Map<String, Object> trail = new HashMap<>();
-            trail.put("seqNo", Integer.parseInt(String.valueOf(sequence.getText())));
-            trail.put("GPSLocation", String.valueOf(loc.getText() ));
-            trail.put("trailStationName", String.valueOf(name.getText()));
-            trail.put("trailID", App.trail.getId());
-            trail.put("trailStnID", App.trail.getId()+String.valueOf(name.getText()) );
-            trail.put("instructions", String.valueOf(instructions.getText()));
+//            Map<String, Object> trail = new HashMap<>();
+//            trail.put("seqNo", Integer.parseInt(String.valueOf(sequence.getText())));
+//            trail.put("GPSLocation", String.valueOf(loc.getText() ));
+//            trail.put("trailStationName", String.valueOf(name.getText()));
+//            trail.put("trailID", App.trail.getId());
+//            trail.put("id", App.trail.getId()+String.valueOf(name.getText()) );
+//            trail.put("instructions", String.valueOf(instructions.getText()));
+
+
+            TrailStation trailStation = new TrailStation();
+            trailStation.setGPS(String.valueOf(loc.getText() ));
+            trailStation.setSequence(Integer.parseInt(String.valueOf(sequence.getText())));
+            trailStation.setTrailId(App.trail.getId());
+            trailStation.setId(App.trail.getId()+String.valueOf(name.getText()));
+            trailStation.setInstruction(String.valueOf(instructions.getText()));
+            trailStation.setName(String.valueOf(name.getText()));
             final ProgressBar pb = findViewById(R.id.pb_add_trail_station);
             pb.setVisibility(View.VISIBLE);
             db.collection("trailStations")
-                    .add(trail)
+                    .add(trailStation)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {

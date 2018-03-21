@@ -60,7 +60,8 @@
         </activity>
 
         <activity android:name=".activity.UserRoleSelectionActivity"></activity>
-        <activity android:name=".activity.TrainerTrailActivity" />
+        <activity android:name=".activity.TrainerTrailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.TrainerTrailStation" />
         <activity android:name=".activity.AddTrailActivity" />
         <activity android:name=".activity.AddTrailStationActivity" />
