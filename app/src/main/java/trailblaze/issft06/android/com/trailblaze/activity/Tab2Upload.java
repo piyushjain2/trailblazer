@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.ContributeItem;
@@ -159,6 +160,9 @@ public class Tab2Upload extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        final Date now = new Date();
+
         if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
 
@@ -182,6 +186,9 @@ public class Tab2Upload extends Fragment {
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
+                            contributeItem.setcTime(now);
+
+
 
                             mFirebaseFirestore.collection("contributions").add(contributeItem);
 
@@ -211,6 +218,7 @@ public class Tab2Upload extends Fragment {
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
+                            contributeItem.setcTime(now);
 
                             mFirebaseFirestore.collection("contributions").add(contributeItem);
 
@@ -240,6 +248,7 @@ public class Tab2Upload extends Fragment {
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
+                            contributeItem.setcTime(now);
 
                             mFirebaseFirestore.collection("contributions").add(contributeItem);
 

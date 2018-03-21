@@ -231,7 +231,7 @@ public class ParticipantActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_participant_trail_station, menu);
         return true;
     }
 
@@ -257,7 +257,7 @@ public class ParticipantActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_trainer:
-                Intent intent = new Intent(ParticipantActivity.this, Trainer_trailList.class);
+                Intent intent = new Intent(ParticipantActivity.this, TrainerTrailActivity.class);
                 startActivity(intent);
                 finish();
                 break;

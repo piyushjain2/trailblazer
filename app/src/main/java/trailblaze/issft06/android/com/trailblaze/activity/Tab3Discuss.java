@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.app.Activity;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trailblaze.issft06.android.com.trailblaze.R;
-import trailblaze.issft06.android.com.trailblaze.app.App;
 
 
 public class Tab3Discuss extends Fragment {
@@ -33,13 +33,15 @@ public class Tab3Discuss extends Fragment {
     ListView listView;
     private String TrailStationID;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//
-//        if ( getArguments() != null ) {
-//            TrailStationID = getArguments().getString("TrailStationID");
-//        }
-        TrailStationID = App.trailStation.getId();
+
+        final Activity activity = getActivity();
+
+        if ( getArguments() != null ) {
+            TrailStationID = getArguments().getString("TrailStationID");
+        }
 
         View rootView = inflater.inflate(R.layout.tab3_discuss, container, false);
 
@@ -69,7 +71,7 @@ public class Tab3Discuss extends Fragment {
                     }
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, postList);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, postList);
                 adapter.notifyDataSetChanged();
 
                 listView.setAdapter(adapter);
