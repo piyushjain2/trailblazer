@@ -60,7 +60,7 @@ public class TrainerTrailStation extends AppCompatActivity{
         @Override
         protected void onCreate(Bundle savedInstanceState) {
 
-            UserID = App.trainer.getId();
+            UserID = App.user.getId();
             TrailStationID = App.trailStation.getId();
 
             super.onCreate(savedInstanceState);
