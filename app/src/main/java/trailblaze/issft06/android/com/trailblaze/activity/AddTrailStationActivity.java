@@ -1,5 +1,7 @@
 package trailblaze.issft06.android.com.trailblaze.activity;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.MapView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -20,28 +26,42 @@ import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.model.User;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class AddTrailStationActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddTrailStationActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     private static final String TAG = "Add Trail Station";
     private User thisUser;
     private Trail thisTrail;
-
+    private final int PLACE_PICKER_REQUEST = 1;
+    TrailStation trailStation = new TrailStation();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trail_station);
-        MapView mapView = (MapView) this.findViewById(R.id.mapView);
+            //Select Location Button
+        Button selectLoc = findViewById(R.id.select_loc);
+            selectLoc.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
 
+                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                        try {
+                             startActivityForResult(builder.build( AddTrailStationActivity.this), PLACE_PICKER_REQUEST);
+
+                        } catch (GooglePlayServicesRepairableException e) {
+                            e.printStackTrace();
+                         } catch (GooglePlayServicesNotAvailableException e) {
+                            e.printStackTrace();
+                        }
+                 }
+      });
 
         Button addTrailStationButton = findViewById(R.id.btn_add_trail_station);
-//        thisUser = getIntent().getExtras().getParcelable("user");
-//        thisTrail = getIntent().getExtras().getParcelable("trail");
+        if(trailStation.getGPS() != null) {
         addTrailStationButton.setOnClickListener(this);
+        }
+        else{
+            Toast.makeText(AddTrailStationActivity.this, "Select Location!", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -52,17 +72,9 @@ public class AddTrailStationActivity extends AppCompatActivity implements View.O
             final EditText loc = findViewById(R.id.trail_station_GPSLocation);
             final EditText name = findViewById(R.id.trail_station_name);
             final EditText instructions = findViewById(R.id.instructions);
-//            Map<String, Object> trail = new HashMap<>();
-//            trail.put("seqNo", Integer.parseInt(String.valueOf(sequence.getText())));
-//            trail.put("GPSLocation", String.valueOf(loc.getText() ));
-//            trail.put("trailStationName", String.valueOf(name.getText()));
-//            trail.put("trailID", App.trail.getId());
-//            trail.put("id", App.trail.getId()+String.valueOf(name.getText()) );
-//            trail.put("instructions", String.valueOf(instructions.getText()));
 
 
-            TrailStation trailStation = new TrailStation();
-            trailStation.setGPS(String.valueOf(loc.getText() ));
+            //setting location to trailStation object in onActivityResult method
             trailStation.setSequence(Integer.parseInt(String.valueOf(sequence.getText())));
             trailStation.setTrailId(App.trail.getId());
             trailStation.setId(App.trail.getId()+String.valueOf(name.getText()));
@@ -92,6 +104,27 @@ public class AddTrailStationActivity extends AppCompatActivity implements View.O
                             Toast.makeText(AddTrailStationActivity.this, "Error adding document: "+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                StringBuilder stBuilder = new StringBuilder();
+                trailStation.setGPS(String.valueOf(place.getLatLng()));
+                EditText editText = (EditText)findViewById(R.id.trail_station_GPSLocation);
+                editText.setText("Selected:" + String.valueOf(place.getLatLng()));  //set the edit text field
+                String placename = String.format("%s", place.getName());
+                String latitude = String.valueOf(place.getLatLng().latitude);
+                String longitude = String.valueOf(place.getLatLng().longitude);
+                String toastMsg = String.format("Place: %s", placename+"/"+latitude+"/"+longitude);
+                Toast.makeText(AddTrailStationActivity.this, toastMsg, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
