@@ -1,12 +1,14 @@
 package trailblaze.issft06.android.com.trailblaze.fragment;
 
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment.OnListFragmentInteractionListener;
+import trailblaze.issft06.android.com.trailblaze.model.Participant;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
 
@@ -17,10 +19,11 @@ import java.util.ArrayList;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class TrailRecyclerViewAdapter extends RecyclerView.Adapter<TrailRecyclerViewAdapter.ViewHolder> {
+public class TrailRecyclerViewAdapter extends RecyclerView.Adapter<TrailRecyclerViewAdapter.ViewHolder>  {
 
     private final ArrayList<Trail> mTrails;
     private final OnListFragmentInteractionListener mListener;
+
 
     public TrailRecyclerViewAdapter(ArrayList<Trail> items, OnListFragmentInteractionListener listener) {
 
@@ -30,8 +33,16 @@ public class TrailRecyclerViewAdapter extends RecyclerView.Adapter<TrailRecycler
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_trail, parent, false);
+        View view;
+        if(App.user.getClass().equals(Participant.class)) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_trail, parent, false);
+        }
+        else{
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_trainer_trail, parent, false);
+
+        }
         return new ViewHolder(view);
     }
 
