@@ -58,7 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="Select Location on Map"
+            android:editable="false"
+            android:hint="Selected Location"
             android:maxLines="1"
             android:singleLine="true" />
 

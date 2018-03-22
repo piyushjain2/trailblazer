@@ -14,20 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
-
 import static android.content.ContentValues.TAG;
 
 /**
@@ -43,7 +38,6 @@ public class TrailStationFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-
     private static TextView  mTextView;
     private static ImageView mImageView;
     private  Button mUnjoinTrail;
@@ -82,6 +76,9 @@ public class TrailStationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trail_station_list, container, false);
+        TextView textView = (TextView) view.findViewById(R.id.trail_stn_name);
+        textView.setText(String.valueOf(App.trail.getName()));
+
 
         // Set the adapter
         if (view.findViewById(R.id.list) instanceof RecyclerView) {

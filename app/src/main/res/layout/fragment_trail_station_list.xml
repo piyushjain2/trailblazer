@@ -8,12 +8,14 @@
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/trail"/>
+
     <TextView
+        android:id="@+id/trail_stn_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:textSize="50dp"
-        android:text="Trail Name"/>
+        android:text="Trail Name"
+        android:textSize="50dp" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Trail Description"/>
+        android:text="Trail Description"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="match_parent"
