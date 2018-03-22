@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,8 +30,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,22 +39,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import trailblaze.issft06.android.com.trailblaze.Trainer_trailList;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailStationFragment;
-import trailblaze.issft06.android.com.trailblaze.model.Participant;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.model.Trainer;
-import trailblaze.issft06.android.com.trailblaze.model.User;
-
-
 import java.io.InputStream;
-import java.util.ArrayList;
-
 import static android.content.ContentValues.TAG;
 
 public class TrainerTrailActivity extends AppCompatActivity
@@ -225,7 +214,7 @@ public class TrainerTrailActivity extends AppCompatActivity
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     TrailFragment trailFragment = new TrailFragment();
                     trailFragment.setTrails(trainer.getCreatedTrails());
-                    fragmentTransaction.replace(R.id.fragment_container, trailFragment);
+                    fragmentTransaction.replace(R.id.fragment_trainer_container, trailFragment);
                     fragmentTransaction.commit();
                     mProgressBar.setVisibility(View.GONE);
                 }
@@ -329,7 +318,7 @@ public class TrainerTrailActivity extends AppCompatActivity
 
                     TrailStationFragment trailStationFragment = new TrailStationFragment();
 
-                    fragmentTransaction.replace(R.id.fragment_container, trailStationFragment);
+                    fragmentTransaction.replace(R.id.fragment_trainer_container, trailStationFragment);
                     fragmentTransaction.commit();
                 }
                 mProgressBar.setVisibility(View.GONE);
