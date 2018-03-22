@@ -21,12 +21,12 @@ import trailblaze.issft06.android.com.trailblaze.model.User;
 public class App extends Application {
 
     public static final TrailManager trailManager = new TrailManager();
-    public static Participant participant = new Participant();
+
 //            =new Participant("Manh Pham","001","Sample Participant","https://avatars2.githubusercontent.com/u/5423719?s=400&v=4");
     public static Trail trail = new Trail();
     public static TrailStation trailStation = new TrailStation();
     public static User user = new User();
-    public static Trainer trainer = new Trainer();
+
     public App() {
 
     }

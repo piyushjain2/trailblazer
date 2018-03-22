@@ -41,22 +41,25 @@ public class TrailFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private ArrayList<Trail> trails;
 
+    public ArrayList<Trail> getTrails() {
+        return trails;
+    }
 
-
-
+    public void setTrails(ArrayList<Trail> trails) {
+        this.trails = trails;
+    }
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public TrailFragment() {
+        trails = new ArrayList<>();
+
     }
 
-
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static TrailFragment newInstance(int columnCount) {
         TrailFragment fragment = new TrailFragment();
         Bundle args = new Bundle();
@@ -74,10 +77,7 @@ public class TrailFragment extends Fragment {
         }
 
 
-
-
     }
-
 
 
     @Override
@@ -89,7 +89,6 @@ public class TrailFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
 
-
             final RecyclerView recyclerView = (RecyclerView) view;
 
             if (mColumnCount <= 1) {
@@ -98,46 +97,42 @@ public class TrailFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            final ArrayList<Trail> trails = new ArrayList<Trail>();
-            FirebaseFirestore mdb = FirebaseFirestore.getInstance();
-            CollectionReference mTrails = mdb.collection("trails");
-            Trails_dao mTrailDao = new Trails_dao();
-            for(String trailId : App.participant.getJoinedTrail() ) {
-                mTrails
-                        .whereEqualTo("id", trailId)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (DocumentSnapshot document : task.getResult()) {
-                                        Log.d(TAG, document.getId() + " => " + document.getData());
+//            final ArrayList<Trail> trails = new ArrayList<Trail>();
+//            Trail trail = new Trail();
+//            trail.setId("2017");
+//            trail.setName("Sample Trail");
+//            trail.setUserId("001");
+//            trails.add(trail);
+//            FirebaseFirestore mdb = FirebaseFirestore.getInstance();
+//            CollectionReference mTrails = mdb.collection("trails");
 
-                                        if (document != null && document.exists()) {
-                                            Trail trail = document.toObject(Trail.class);
-                                            trails.add(trail);
-                                        }
-                                    }
-
-                                    recyclerView.setAdapter(new TrailRecyclerViewAdapter(trails, mListener));
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                }
-
-
-                            }
-                        });
-
-//                trails.add(mTrailDao.getTrailById(trailId));
-            }
-
-
+//            for(String trailId : App.participant.getJoinedTrail() ) {
+//                mTrails
+//                        .whereEqualTo("id", trailId)
+//                        .get()
+//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                if (task.isSuccessful()) {
+//                                    for (DocumentSnapshot document : task.getResult()) {
+//                                        Log.d(TAG, document.getId() + " => " + document.getData());
+//
+//                                        if (document != null && document.exists()) {
+//                                            Trail trail = document.toObject(Trail.class);
+//                                            trails.add(trail);
+//                                        }
+//                                    }
+//
+//                                    recyclerView.setAdapter(new TrailRecyclerViewAdapter(trails, mListener));
+//                                } else {
+//                                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                                }
+//                            }
+//                        });
+//        }
+            recyclerView.setAdapter(new TrailRecyclerViewAdapter(trails,mListener));
 
         }
-
-
-
-
         return view;
     }
 
@@ -169,6 +164,7 @@ public class TrailFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Trail trail);

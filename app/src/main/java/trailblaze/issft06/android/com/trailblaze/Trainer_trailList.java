@@ -42,6 +42,7 @@ import trailblaze.issft06.android.com.trailblaze.firestoredao.Trails_dao;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailRecyclerViewAdapter;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
+import trailblaze.issft06.android.com.trailblaze.model.Trainer;
 
 import static android.content.ContentValues.TAG;
 
@@ -52,11 +53,13 @@ public class Trainer_trailList extends AppCompatActivity
     private ProgressDialog mProgressDialog;
     private int mColumnCount = 1;
     private TrailFragment.OnListFragmentInteractionListener mListener;
-
+    private Trainer trainer;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trail_list, container, false);
+        trainer = new Trainer();
+        trainer = (Trainer) App.user;
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -75,9 +78,9 @@ public class Trainer_trailList extends AppCompatActivity
             FirebaseFirestore mdb = FirebaseFirestore.getInstance();
             CollectionReference mTrails = mdb.collection("trails");
             Trails_dao mTrailDao = new Trails_dao();
-            for (String trailId : App.trainer.getCreatedTrails()) {
+            for (Trail trail : trainer.getCreatedTrails()) {
                 mTrails
-                        .whereEqualTo("userID", App.trainer.getId())
+                        .whereEqualTo("userID", App.user.getId())
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
