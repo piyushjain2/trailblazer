@@ -43,7 +43,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import trailblaze.issft06.android.com.trailblaze.Trainer_trailList;
+//import trailblaze.issft06.android.com.trailblaze.Trainer_trailList;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailStationFragment;
@@ -219,8 +219,6 @@ public class ParticipantActivity extends AppCompatActivity implements Navigation
                     }
                 });
 
-
-
     }
 
 
@@ -295,8 +293,9 @@ public class ParticipantActivity extends AppCompatActivity implements Navigation
         mProgressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore mdb = FirebaseFirestore.getInstance();
         final CollectionReference mTrails = mdb.collection("trails");
-        Log.d(TAG, trail.getId());
 
+        App.trail.setName(trail.getName());
+        App.trail.getTrailStations().clear();
 
         mTrailStations = mdb.collection("trailStations");
         mTrailStations
