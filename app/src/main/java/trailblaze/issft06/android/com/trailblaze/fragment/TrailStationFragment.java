@@ -13,16 +13,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
 import trailblaze.issft06.android.com.trailblaze.app.App;
+import trailblaze.issft06.android.com.trailblaze.model.Participant;
 import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
+import trailblaze.issft06.android.com.trailblaze.model.Trainer;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -33,13 +42,15 @@ import static android.content.ContentValues.TAG;
  */
 public class TrailStationFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+
     private static TextView  mTextView;
     private static ImageView mImageView;
+
+    private static TextView mDescription;
+    private static LinearLayout mLinearLayout;
     private  Button mUnjoinTrail;
 
     /**
@@ -76,14 +87,11 @@ public class TrailStationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trail_station_list, container, false);
-        TextView textView = (TextView) view.findViewById(R.id.trail_stn_name);
-        textView.setText(String.valueOf(App.trail.getName()));
-
-
+        mLinearLayout = view.findViewById(R.id.linear_layout);
         // Set the adapter
-        if (view.findViewById(R.id.list) instanceof RecyclerView) {
-            Context context = view.getContext();
-            final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        if (mLinearLayout.findViewById(R.id.list) instanceof RecyclerView) {
+            Context context = mLinearLayout.getContext();
+            final RecyclerView recyclerView = (RecyclerView) mLinearLayout.findViewById(R.id.list);
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -96,8 +104,19 @@ public class TrailStationFragment extends Fragment {
 
             recyclerView.setAdapter(new TrailStationRecyclerViewAdapter(App.trail.getTrailStations(), mListener));
 
-            mUnjoinTrail = (Button) view.findViewById(R.id.unjoin_trail);
 
+            mUnjoinTrail = (Button) mLinearLayout.findViewById(R.id.unjoin_trail);
+            mTextView = (TextView) mLinearLayout.findViewById(R.id.trail_name);
+            mDescription = (TextView) mLinearLayout.findViewById(R.id.trail_description);
+            mTextView.setText(App.trail.getName());
+            mDescription.setText(App.trail.getDescription());
+
+
+            if (App.user.getClass().equals(Participant.class)) {
+                mUnjoinTrail.setText("You already joint this Trail!");
+            } else if (App.user.getClass().equals(Trainer.class)) {
+                mUnjoinTrail.setText("Delete this Trail!");
+            }
             mUnjoinTrail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

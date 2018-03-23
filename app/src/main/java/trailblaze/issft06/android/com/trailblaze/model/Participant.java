@@ -23,16 +23,16 @@ public class Participant extends User {
         this.joinedTrail = joinedTrail;
     }
 
+    public boolean isJoin (Trail trail) {
+        return joinedTrail.contains(trail);
+    }
     public void joinTrail (Trail trail) {
-        /* TODO (1): implement join trail funciton */
-//        if (App.trailManager.getParticipantTrail().get(this) == null) {
-//            HashMap<Participant,List<Trail>> trailParticipant = null;
-//            List<Trail> trails = null;
-//            trails.add(trail);
-//            trailParticipant.put(this,trails);
-//        } else {
-//            App.trailManager.addParticipantTrail(this, trail);
-//        }
+        if (isJoin(trail)) {
+            return ;
+        } else {
+            joinedTrail.add(trail);
+        }
+
     }
 
 }

@@ -81,7 +81,6 @@ public class Tab4Activity extends Fragment {
                 ContributeAdapter adapter = new ContributeAdapter(activityList);
                 adapter.notifyDataSetChanged();
                 listView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-
                 listView.setAdapter(adapter);
             }
         });

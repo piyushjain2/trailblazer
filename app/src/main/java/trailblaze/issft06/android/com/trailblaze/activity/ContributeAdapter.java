@@ -88,16 +88,22 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                final CharSequence[] items = { "View" };
+                final CharSequence[] items = { "View","Delete" };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setTitle("Action:");
+
+
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int item) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(holder.mItem.getUrl()));
-                        context.startActivity(intent);
+                        if (items[item] == "View") {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(holder.mItem.getUrl()));
+                            context.startActivity(intent);
+                        } else if (items[item] == "Delete") {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(holder.mItem.getUrl()));
+                            context.startActivity(intent);
+                        }
 
 //                        new AlertDialog.Builder(context)
 //                                .setTitle("Success")
@@ -135,6 +141,7 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         public final View mView;
         public final TextView mIdView;
         public final ImageView mImageView;
+
 
         public ContributeItem mItem;
 
