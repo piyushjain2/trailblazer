@@ -294,6 +294,7 @@ public class ParticipantActivity extends AppCompatActivity implements Navigation
         FirebaseFirestore mdb = FirebaseFirestore.getInstance();
         final CollectionReference mTrails = mdb.collection("trails");
 
+        App.trail.setId(trail.getId());
         App.trail.setName(trail.getName());
         App.trail.getTrailStations().clear();
 
