@@ -1,5 +1,6 @@
 package trailblaze.issft06.android.com.trailblaze.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,6 +26,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.TrailStation;
 import trailblaze.issft06.android.com.trailblaze.R;
+import trailblaze.issft06.android.com.trailblaze.model.Trainer;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -75,6 +80,9 @@ public class TrailStationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(App.user.getClass().equals(Trainer.class)) {
+            setHasOptionsMenu(true);
+        }
         View view = inflater.inflate(R.layout.fragment_trail_station_list, container, false);
         TextView textView = (TextView) view.findViewById(R.id.trail_stn_name);
         textView.setText(String.valueOf(App.trail.getName()));
@@ -151,7 +159,22 @@ public class TrailStationFragment extends Fragment {
 
             });
         }
+
+
+
         return view;
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public void onCreateOptionsMenu(
+            Menu menu, MenuInflater inflater){
+        // Inflate the menu; this adds items to the action bar if it is present.
+        if(App.user.getClass().equals(Trainer.class)) {
+            inflater.inflate(R.menu.main, menu);
+//                menu.add(R.id.action_del_trail);
+//                menu.getItem(R.id.action_del_trail).setVisible(true);
+            }
     }
 
 
