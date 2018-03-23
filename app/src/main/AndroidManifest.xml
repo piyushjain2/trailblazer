@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="trailblaze.issft06.android.com.trailblaze">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,26 +13,55 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCNU5NS7PkUqL-Sy4GnOv1KFtyVrbVyaXo" />
+        <activity
+            android:name=".activity.ParticipantActivity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.SearchTrailActivity" />
+        <activity android:name=".activity.TrailDetailActivity" />
+        <activity
+            android:name=".activity.ParticipantTrailStation"
+            android:label="@string/title_activity_participant_trail_station"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity
-            android:name="trailblaze.issft06.android.com.trailblaze.Trainer_trailList"
-            android:label="@string/title_activity_trainer_trail_list"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
         </activity>
 
-        <activity
-            android:name=".Activity.ParticipantActivity"
-            android:label="@string/title_activity_main2"
+        <activity android:name=".activity.UserRoleSelectionActivity"></activity>
+        <activity android:name=".activity.TrainerTrailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.SearchTrailActivity" />
-        <activity android:name=".Activity.TrailDetailActivity"></activity>
+        <activity android:name=".activity.TrainerTrailStation" />
+        <activity android:name=".activity.AddTrailActivity" />
+        <activity android:name=".activity.AddTrailStationActivity" />
 
     </application>
 
