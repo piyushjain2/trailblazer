@@ -28,16 +28,15 @@ import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 
 
-public class Tab1Task extends Fragment {
+public class Tab1Task extends Fragment implements OnMapReadyCallback {
 
-    public static final String COLLECTION_KEY = "trailStations";
+    public static final String COLLECTION_KEY = "trail_station";
     public static final String INSTRUCTION_KEY = "instructions";
-    public static final String TrailStationName_KEY = "name";
+    public static final String TrailStationName_KEY = "stn_name";
     public static final String GPS_KEY = "GPS";
 
     public static final String GetTrailStationID = "TrailStationID";
 
-    private String trailStationID;
     private String TrailStationID;
     private String TrailStationName;
 
@@ -54,9 +53,11 @@ public class Tab1Task extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//
-//        trailStationID = App.trailStation.getId();
-//
+
+        if ( getArguments() != null ) {
+            TrailStationID = getArguments().getString(GetTrailStationID);
+        }
+
         final View rootView = inflater.inflate(R.layout.tab1_task, container, false);
 
 
@@ -71,12 +72,8 @@ public class Tab1Task extends Fragment {
         mapFragment.getMapAsync(this);
 
 
-        mDocRef.document(COLLECTION_KEY + "/" + TrailStationID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-
         TextView stationName = rootView.findViewById(R.id.StationName);
+
         stationName.setText(App.trailStation.getName());
 
         TextView instructionText = rootView.findViewById(R.id.instructionText);
