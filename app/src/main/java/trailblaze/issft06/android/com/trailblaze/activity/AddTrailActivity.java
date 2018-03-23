@@ -61,7 +61,7 @@ public class AddTrailActivity extends AppCompatActivity implements View.OnClickL
                             pb.setVisibility(View.GONE);
                             thisTrail = new Trail();
                             Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                            SimpleDateFormat sdf = new SimpleDateFormat("ddMMYY");
+                            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
                             try {
                                 thisTrail.setDate(sdf.parse(String.valueOf(trailDate.getText())));
                             } catch (ParseException e) {
