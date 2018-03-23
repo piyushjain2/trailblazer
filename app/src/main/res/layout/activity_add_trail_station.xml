@@ -81,7 +81,8 @@
             android:id="@+id/btn_add_trail_station"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="@color/White"
-            android:text="@string/add_trail_station"/>
+            android:text="@string/add_trail_station"
+            android:onClick="addTrailStation" />
     </LinearLayout>
     <ProgressBar
         android:id="@+id/pb_add_trail_station"
