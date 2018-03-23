@@ -5,7 +5,8 @@ android {
         config {
             keyAlias 'key03'
             keyPassword 'trails'
-            storeFile file('C:/Users/Source/Google Drive/NUS Notes/AndroidProject/Code_Android/trailblazer/trailblazer_1/TrailKey.jks')
+            storeFile file('/Users/nhatdx/Documents/Work/Mtech/trailblazer/TrailKey.jks')
+//            storeFile file('C:/Users/Source/Google Drive/NUS Notes/AndroidProject/Code_Android/trailblazer/trailblazer_1/TrailKey.jks')
             storePassword 'trails'
         }
     }
