@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:textSize="50dp"
-                android:id="@id/trail_name"
+                android:id="@+id/trail_name"
                 android:text="Trail Name"/>
             <Button
                 android:layout_width="match_parent"
@@ -34,9 +34,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:id="@+id/trail_description"/>
 
+                android:id="@+id/trail_description"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -20,6 +20,18 @@ public class Trail {
     private String description;
     private ArrayList<TrailStation> trailStations;
 
+    private Integer totalTrailStation;
+
+//
+
+
+    public Integer getTotalTrailStation() {
+        return totalTrailStation;
+    }
+
+    public void setTotalTrailStation(Integer totalTrailStation) {
+        this.totalTrailStation = totalTrailStation;
+    }
 
     private String firebaseId;
 
@@ -32,9 +44,10 @@ public class Trail {
     }
 
     public Trail() {
-
+        totalTrailStation = 0;
         trailStations = new ArrayList<TrailStation>();
     }
+
 
     public String getDescription() {
         return description;
@@ -109,7 +122,19 @@ public class Trail {
         if(this.contains(trailStation)) {
             return ;
         } else {
+            totalTrailStation ++;
             this.trailStations.add(trailStation);
+
+        }
+    }
+
+    public void removeTrailStation(TrailStation trailStation) {
+        if(!this.contains(trailStation)) {
+            return ;
+        } else {
+            totalTrailStation --;
+            this.trailStations.remove(trailStation);
+
         }
     }
 }

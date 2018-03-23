@@ -108,67 +108,69 @@ public class TrailStationFragment extends Fragment {
             mUnjoinTrail = (Button) mLinearLayout.findViewById(R.id.unjoin_trail);
             mTextView = (TextView) mLinearLayout.findViewById(R.id.trail_name);
             mDescription = (TextView) mLinearLayout.findViewById(R.id.trail_description);
+
             mTextView.setText(App.trail.getName());
             mDescription.setText(App.trail.getDescription());
 
 
             if (App.user.getClass().equals(Participant.class)) {
-                mUnjoinTrail.setText("You already joint this Trail!");
-            } else if (App.user.getClass().equals(Trainer.class)) {
-                mUnjoinTrail.setText("Delete this Trail!");
-            }
-            mUnjoinTrail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mUnjoinTrail.setEnabled(false);
-                    mUnjoinTrail.setText("You do not join this Trail yet!");
-                    FirebaseFirestore mdb = FirebaseFirestore.getInstance();
-                    final CollectionReference mUsers = mdb.collection("users");
-                    mUsers
-                            .whereEqualTo("id", App.user.getId())
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (DocumentSnapshot document : task.getResult()) {
-                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                mUnjoinTrail.setText("Unjoin This Trail!");
+                mUnjoinTrail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mUnjoinTrail.setEnabled(false);
+                        mUnjoinTrail.setText("You do not join this Trail yet!");
+                        FirebaseFirestore mdb = FirebaseFirestore.getInstance();
+                        final CollectionReference mUsers = mdb.collection("users");
+                        mUsers
+                                .whereEqualTo("id", App.user.getId())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (DocumentSnapshot document : task.getResult()) {
+                                                Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                            if (document != null && document.exists()) {
-                                                final CollectionReference mTrails = mUsers.document(document.getId()).collection("joinedTrails");
-                                                mTrails
-                                                        .whereEqualTo("id", App.trail.getId())
-                                                        .get()
-                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                for (DocumentSnapshot document : task.getResult()) {
-                                                                    Log.d(TAG, document.getId() + " => " + document.getData());
-                                                                    if (document != null && document.exists()) {
-                                                                        mTrails.document(document.getId()).delete();
+                                                if (document != null && document.exists()) {
+                                                    final CollectionReference mTrails = mUsers.document(document.getId()).collection("joinedTrails");
+                                                    mTrails
+                                                            .whereEqualTo("id", App.trail.getId())
+                                                            .get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    for (DocumentSnapshot document : task.getResult()) {
+                                                                        Log.d(TAG, document.getId() + " => " + document.getData());
+                                                                        if (document != null && document.exists()) {
+                                                                            mTrails.document(document.getId()).delete();
 
 
-                                                                    } else {
-                                                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                                                        } else {
+                                                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                                                        }
                                                                     }
                                                                 }
-                                                            }
-                                                        });
+                                                            });
+                                                }
                                             }
+
+
+                                        } else {
+                                            Log.d(TAG, "Error getting documents: ", task.getException());
                                         }
 
 
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
+                                });
 
+                    }
 
-                                }
-                            });
+                });
+            } else if (App.user.getClass().equals(Trainer.class)) {
+                mUnjoinTrail.setVisibility(View.GONE);
+            }
 
-                }
-
-            });
         }
         return view;
     }

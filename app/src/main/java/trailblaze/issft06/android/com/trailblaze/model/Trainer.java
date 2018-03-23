@@ -26,6 +26,14 @@ public class Trainer extends User {
         }
     }
 
+    public void deleteTrail(Trail trail) {
+        if(!isCreated(trail)) {
+            return;
+        } else {
+            this.createdTrails.remove(trail);
+        }
+    }
+
 
     public ArrayList<Trail> getCreatedTrails() {
         return createdTrails;

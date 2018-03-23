@@ -35,4 +35,13 @@ public class Participant extends User {
 
     }
 
+    public void unjoinTrail (Trail trail) {
+        if (!isJoin(trail)) {
+            return ;
+        } else {
+            joinedTrail.remove(trail);
+        }
+
+    }
+
 }

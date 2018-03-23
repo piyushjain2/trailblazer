@@ -166,61 +166,63 @@ public class ParticipantActivity extends AppCompatActivity
         mDescription = (TextView) headerView.findViewById(R.id.user_email);
 
         mProgressBar = (ProgressBar) this.findViewById(R.id.progressBar);
+        if (App.user.getId() == null) { // for testing
+            mProgressBar.setVisibility(View.GONE);
+        } else {
+            mUsers
+                    .whereEqualTo("id", App.user.getId())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
 
-        mUsers
-                .whereEqualTo("id", App.user.getId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-
-                                if (document != null && document.exists()) {
-                                    participant = document.toObject(Participant.class);
-                                    participant.setFirebaseId(document.getId());
+                                    if (document != null && document.exists()) {
+                                        participant = document.toObject(Participant.class);
+                                        participant.setFirebaseId(document.getId());
 
                                     /*Uri profilePictureURI = Uri.parse(App.participant.getProfileUrl());
                                     new DownloadImageTask(mProfilePic)
                                             .execute(App.participant.getProfileUrl());*/
-                                    mUserName.setText(participant.getName());
-                                    mDescription.setText(participant.getDescription());
+                                        mUserName.setText(participant.getName());
+                                        mDescription.setText(participant.getDescription());
 
-                                    CollectionReference mJoinedTrails = mUsers.document(participant.getFirebaseId()).collection("joinedTrails");
-                                    mJoinedTrails.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                for (DocumentSnapshot document : task.getResult()) {
-                                                    if (document != null && document.exists()) {
-                                                        participant.getJoinedTrail().add(document.toObject(Trail.class));
+                                        CollectionReference mJoinedTrails = mUsers.document(participant.getFirebaseId()).collection("joinedTrails");
+                                        mJoinedTrails.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (DocumentSnapshot document : task.getResult()) {
+                                                        if (document != null && document.exists()) {
+                                                            participant.getJoinedTrail().add(document.toObject(Trail.class));
 
+                                                        }
                                                     }
+                                                    App.user = participant;
+
+
+                                                    FragmentManager fm = getFragmentManager();
+                                                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+                                                    TrailFragment trailFragment = new TrailFragment();
+                                                    trailFragment.setTrails(participant.getJoinedTrail());
+                                                    fragmentTransaction.replace(R.id.fragment_container, trailFragment);
+                                                    fragmentTransaction.commit();
+                                                    mProgressBar.setVisibility(View.GONE);
                                                 }
-                                                App.user = participant;
-
-
-                                                FragmentManager fm = getFragmentManager();
-                                                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-
-                                                TrailFragment trailFragment = new TrailFragment();
-                                                trailFragment.setTrails(participant.getJoinedTrail());
-                                                fragmentTransaction.replace(R.id.fragment_container, trailFragment);
-                                                fragmentTransaction.commit();
-                                                mProgressBar.setVisibility(View.GONE);
                                             }
-                                        }
-                                    });
+                                        });
+                                    }
                                 }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
 
-
+        }
 
     }
 
@@ -297,6 +299,7 @@ public class ParticipantActivity extends AppCompatActivity
         FirebaseFirestore mdb = FirebaseFirestore.getInstance();
         final CollectionReference mTrails = mdb.collection("trails");
         Log.d(TAG, trail.getId());
+        App.trail.getTrailStations().clear();
 
 
         mTrailStations = mdb.collection("trailStations");
