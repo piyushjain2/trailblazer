@@ -33,7 +33,7 @@ public class TrailDetailActivity extends AppCompatActivity {
         trailDetailName = (TextView) findViewById(R.id.trail_detail_name);
         trailDetailDescription = (TextView) findViewById(R.id.trail_result_description);
 
-        Participant participant = new Participant();
+        Participant participant;
         participant = (Participant) App.user;
 
         Intent intent = getIntent();
@@ -52,7 +52,6 @@ public class TrailDetailActivity extends AppCompatActivity {
         mJoinTrailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 FirebaseFirestore mdb = FirebaseFirestore.getInstance();
                 CollectionReference mUsers = mdb.collection("users");
