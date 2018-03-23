@@ -58,8 +58,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class ParticipantActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, TrailFragment.OnListFragmentInteractionListener, TrailStationFragment.OnListFragmentInteractionListener {
+public class ParticipantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TrailFragment.OnListFragmentInteractionListener, TrailStationFragment.OnListFragmentInteractionListener {
 
 
     private TextView mUserName;
@@ -301,7 +300,7 @@ public class ParticipantActivity extends AppCompatActivity
 
         mTrailStations = mdb.collection("trailStations");
         mTrailStations
-                .whereEqualTo("trailId",trail.getId())
+                .whereEqualTo("trailId", trail.getId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
