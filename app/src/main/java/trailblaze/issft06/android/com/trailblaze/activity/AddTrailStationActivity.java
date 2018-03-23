@@ -36,6 +36,9 @@ public class AddTrailStationActivity extends AppCompatActivity implements Google
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.d(TAG, "##### View Loaded");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trail_station);
             //Select Location Button
@@ -66,62 +69,75 @@ public class AddTrailStationActivity extends AppCompatActivity implements Google
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btn_add_trail_station){
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            final EditText sequence = findViewById(R.id.trail_station_sequence_no);
-            final EditText loc = findViewById(R.id.trail_station_GPSLocation);
-            final EditText name = findViewById(R.id.trail_station_name);
-            final EditText instructions = findViewById(R.id.instructions);
 
+    }
 
-            //setting location to trailStation object in onActivityResult method
-            trailStation.setSequence(Integer.parseInt(String.valueOf(sequence.getText())));
-            trailStation.setTrailId(App.trail.getId());
-            trailStation.setId(App.trail.getId()+String.valueOf(name.getText()));
-            trailStation.setInstruction(String.valueOf(instructions.getText()));
-            trailStation.setName(String.valueOf(name.getText()));
-            final ProgressBar pb = findViewById(R.id.pb_add_trail_station);
-            pb.setVisibility(View.VISIBLE);
-            db.collection("trailStations")
-                    .add(trailStation)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            pb.setVisibility(View.GONE);
-                            thisTrail = new Trail();
-                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                            Toast.makeText(AddTrailStationActivity.this, "Trail Station Successfully Added", Toast.LENGTH_SHORT).show();
-                            sequence.setText("");
-                            loc.setText("");
-                            name.setText("");
-                            instructions.setText("");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error adding document", e);
-                            Toast.makeText(AddTrailStationActivity.this, "Error adding document: "+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
+    public void addTrailStation(View view) {
+
+        Log.d(TAG, "##### clicked");
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final EditText sequence = findViewById(R.id.trail_station_sequence_no);
+        final EditText loc = findViewById(R.id.trail_station_GPSLocation);
+        final EditText name = findViewById(R.id.trail_station_name);
+        final EditText instructions = findViewById(R.id.instructions);
+
+        //setting location to trailStation object in onActivityResult method
+        trailStation.setSequence(Integer.parseInt(String.valueOf(sequence.getText())));
+        trailStation.setTrailId(App.trail.getId());
+        trailStation.setId(App.trail.getId()+String.valueOf(name.getText()));
+        trailStation.setInstruction(String.valueOf(instructions.getText()));
+        trailStation.setName(String.valueOf(name.getText()));
+
+        final ProgressBar pb = findViewById(R.id.pb_add_trail_station);
+        pb.setVisibility(View.VISIBLE);
+        db.collection("trailStations")
+                .document(trailStation.getId())
+                .set(trailStation)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        pb.setVisibility(View.GONE);
+                        thisTrail = new Trail();
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + trailStation.getId());
+                        Toast.makeText(AddTrailStationActivity.this, "Trail Station Successfully Added", Toast.LENGTH_SHORT).show();
+                        sequence.setText("");
+                        loc.setText("");
+                        name.setText("");
+                        instructions.setText("");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                        Toast.makeText(AddTrailStationActivity.this, "Error adding document: "+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, this);
+                Place place = PlacePicker.getPlace(this, data);
                 StringBuilder stBuilder = new StringBuilder();
+
                 trailStation.setGPS(String.valueOf(place.getLatLng()));
+
                 EditText editText = (EditText)findViewById(R.id.trail_station_GPSLocation);
                 editText.setText("Selected:" + String.valueOf(place.getLatLng()));  //set the edit text field
                 String placename = String.format("%s", place.getName());
                 String latitude = String.valueOf(place.getLatLng().latitude);
                 String longitude = String.valueOf(place.getLatLng().longitude);
+
+                trailStation.setGPSLat(latitude);
+                trailStation.setGPSLng(longitude);
+
                 String toastMsg = String.format("Place: %s", placename+"/"+latitude+"/"+longitude);
                 Toast.makeText(AddTrailStationActivity.this, toastMsg, Toast.LENGTH_LONG).show();
             }
