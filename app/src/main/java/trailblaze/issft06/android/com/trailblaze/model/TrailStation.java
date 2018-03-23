@@ -9,6 +9,8 @@ public class TrailStation {
     private String name;
     private String trailId;
     private String GPS;
+    private String GPSLat;
+    private String GPSLng;
     private String instruction;
     private int sequence;
 
@@ -46,6 +48,23 @@ public class TrailStation {
     public void setGPS(String GPS) {
         this.GPS = GPS;
     }
+
+    public String getGPSLat() {
+        return GPSLat;
+    }
+
+    public void setGPSLat(String GPSLat) {
+        this.GPSLat = GPSLat;
+    }
+
+    public String getGPSLng() {
+        return GPSLng;
+    }
+
+    public void setGPSLng(String GPSLng) {
+        this.GPSLng = GPSLng;
+    }
+
 
     public String getInstruction() {
         return instruction;

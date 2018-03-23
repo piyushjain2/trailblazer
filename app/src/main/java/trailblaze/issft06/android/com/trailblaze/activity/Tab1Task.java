@@ -25,15 +25,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import trailblaze.issft06.android.com.trailblaze.R;
-import trailblaze.issft06.android.com.trailblaze.app.App;
 
 
 public class Tab1Task extends Fragment implements OnMapReadyCallback {
 
-    public static final String COLLECTION_KEY = "trail_station";
-    public static final String INSTRUCTION_KEY = "instructions";
-    public static final String TrailStationName_KEY = "stn_name";
-    public static final String GPS_KEY = "GPS";
+    public static final String COLLECTION_KEY = "trailStations";
+    public static final String INSTRUCTION_KEY = "instruction";
+    public static final String TrailStationName_KEY = "name";
+    public static final String GPSLat_KEY = "gpslat";
+    public static final String GPSLng_KEY = "gpslng";
 
     public static final String GetTrailStationID = "TrailStationID";
 
@@ -41,10 +41,8 @@ public class Tab1Task extends Fragment implements OnMapReadyCallback {
     private String TrailStationName;
 
     // update for map
-    // Log.d("TAB1", documentSnapshot.getString(GPS_KEY));
     private double TrailStnLat = 1.3051883;
     private double TrailStnLng = 103.7727994;
-
 
     private FirebaseFirestore mDocRef = FirebaseFirestore.getInstance();
 
@@ -72,12 +70,29 @@ public class Tab1Task extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
 
-        TextView stationName = rootView.findViewById(R.id.StationName);
+        mDocRef.document(COLLECTION_KEY + "/" + TrailStationID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-        stationName.setText(App.trailStation.getName());
+                if (documentSnapshot.exists()) {
 
-        TextView instructionText = rootView.findViewById(R.id.instructionText);
-        instructionText.setText(App.trailStation.getInstruction());
+                    TextView stationName = rootView.findViewById(R.id.StationName);
+                    TrailStationName = documentSnapshot.getString(TrailStationName_KEY);
+                    stationName.setText(TrailStationName);
+
+                    TextView instructionText = rootView.findViewById(R.id.instructionText);
+                    instructionText.setText(documentSnapshot.getString(INSTRUCTION_KEY));
+
+                    if (documentSnapshot.getString(GPSLat_KEY) != null) {
+                        TrailStnLat = Double.parseDouble(documentSnapshot.getString(GPSLat_KEY));
+                    }
+
+                    if (documentSnapshot.getString(GPSLng_KEY) != null) {
+                        TrailStnLng = Double.parseDouble(documentSnapshot.getString(GPSLng_KEY));
+                    }
+                }
+            }
+        });
 
         return rootView;
     }
