@@ -214,7 +214,7 @@ public class TrainerTrailActivity extends AppCompatActivity
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     TrailFragment trailFragment = new TrailFragment();
                     trailFragment.setTrails(trainer.getCreatedTrails());
-                    fragmentTransaction.replace(R.id.fragment_trainer_container, trailFragment);
+                    fragmentTransaction.replace(R.id.fragment_container, trailFragment);
                     fragmentTransaction.commit();
                     mProgressBar.setVisibility(View.GONE);
                 }
@@ -318,7 +318,7 @@ public class TrainerTrailActivity extends AppCompatActivity
 
                     TrailStationFragment trailStationFragment = new TrailStationFragment();
 
-                    fragmentTransaction.replace(R.id.fragment_trainer_container, trailStationFragment);
+                    fragmentTransaction.replace(R.id.fragment_container, trailStationFragment);
                     fragmentTransaction.commit();
                 }
                 mProgressBar.setVisibility(View.GONE);

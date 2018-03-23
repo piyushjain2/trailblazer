@@ -33,6 +33,7 @@
     <string name="prompt_trail_date_ddmmyy">Trail Date ddMMYY</string>
     <string name="add_trail">Add New Trail</string>
     <string name="add_trail_station">Add New Trail Station</string>
-    <item name="visible" type="id"/>
-    <item name="masked" type="id"/>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+    <string name="title_activity_maps">Map</string>
 </resources>
