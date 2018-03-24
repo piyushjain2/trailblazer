@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package trailblaze.issft06.android.com.trailblaze.activity;
+package trailblaze.issft06.android.com.trailblaze.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

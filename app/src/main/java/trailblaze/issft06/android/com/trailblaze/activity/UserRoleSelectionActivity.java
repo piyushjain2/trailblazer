@@ -9,6 +9,10 @@ import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.R;
 import trailblaze.issft06.android.com.trailblaze.model.User;
 
+/**
+ * Created by Piyush on 2/3/18.
+ */
+
 public class UserRoleSelectionActivity extends AppCompatActivity implements View.OnClickListener {
 
 
