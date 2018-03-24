@@ -156,7 +156,7 @@ public class Tab2Upload extends Fragment {
             mUploadPdf.setVisibility(View.GONE);
             mUploadVideo.setVisibility(View.GONE);
         }
-        
+
         return rootView;
     }
 

@@ -50,6 +50,7 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         holder.mItem = mContributeItems.get(position);
 
         holder.mIdView.setText(holder.mItem.getContentType());
+        holder.mDesc.setText(holder.mItem.getDesc());
 
         if (holder.mItem.getContentType().equals("application/pdf")) {
 
@@ -118,6 +119,7 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         public final View mView;
         public final TextView mIdView;
         public final ImageView mImageView;
+        public final TextView mDesc;
 
         public ContributeItem mItem;
 
@@ -126,6 +128,8 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
             mView = view;
             mImageView = (ImageView) view.findViewById(R.id.photoImageView);
             mIdView = (TextView) view.findViewById(R.id.messageTextView);
+            mDesc = (TextView) view.findViewById(R.id.nameTextView);
+
 
         }
 
