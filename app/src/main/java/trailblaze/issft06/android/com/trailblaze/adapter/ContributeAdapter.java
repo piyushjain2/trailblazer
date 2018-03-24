@@ -1,24 +1,16 @@
-package trailblaze.issft06.android.com.trailblaze.activity;
+package trailblaze.issft06.android.com.trailblaze.adapter;
 
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 
@@ -27,11 +19,6 @@ import trailblaze.issft06.android.com.trailblaze.model.ContributeItem;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 /**
@@ -63,11 +50,12 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         holder.mItem = mContributeItems.get(position);
 
         holder.mIdView.setText(holder.mItem.getContentType());
+        holder.mDesc.setText(holder.mItem.getDesc());
 
         if (holder.mItem.getContentType().equals("application/pdf")) {
 
             holder.mImageView.setImageResource(R.drawable.pdf_icon);
-        } else if (holder.mItem.getContentType().equals("image/jpeg")){
+        } else if (holder.mItem.getContentType().equals("image/jpeg")) {
 
             Glide.with(context)
                     .load(holder.mItem.getUrl())
@@ -75,8 +63,6 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         } else if (holder.mItem.getContentType().equals("video/mp4")) {
             holder.mImageView.setImageResource(R.drawable.video_file);
         }
-
-
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,8 +110,6 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
 
     }
 
-
-
     @Override
     public int getItemCount() {
         return mContributeItems.size();
@@ -135,6 +119,7 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         public final View mView;
         public final TextView mIdView;
         public final ImageView mImageView;
+        public final TextView mDesc;
 
         public ContributeItem mItem;
 
@@ -143,6 +128,8 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
             mView = view;
             mImageView = (ImageView) view.findViewById(R.id.photoImageView);
             mIdView = (TextView) view.findViewById(R.id.messageTextView);
+            mDesc = (TextView) view.findViewById(R.id.nameTextView);
+
 
         }
 
@@ -151,8 +138,5 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
             return super.toString() +  "'";
         }
     }
-
-
-
 
 }

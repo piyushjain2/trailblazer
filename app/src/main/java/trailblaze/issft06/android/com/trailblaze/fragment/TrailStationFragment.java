@@ -106,6 +106,10 @@ public class TrailStationFragment extends Fragment {
 
             mUnjoinTrail = (Button) view.findViewById(R.id.unjoin_trail);
 
+            if(App.user.getClass().equals(Trainer.class)) {
+                mUnjoinTrail.setVisibility(View.GONE);
+            }
+
             mUnjoinTrail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

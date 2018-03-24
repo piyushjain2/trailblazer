@@ -7,7 +7,6 @@ package trailblaze.issft06.android.com.trailblaze.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,16 +26,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import trailblaze.issft06.android.com.trailblaze.adapter.ContributeAdapter;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.ContributeItem;
 import trailblaze.issft06.android.com.trailblaze.R;
+import trailblaze.issft06.android.com.trailblaze.model.Trainer;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
@@ -45,19 +44,18 @@ import static android.content.ContentValues.TAG;
 
 public class Tab2Upload extends Fragment {
 
-     FirebaseFirestore mFirebaseFirestore;
-     FirebaseStorage mFirebaseStorage;
+    FirebaseFirestore mFirebaseFirestore;
+    FirebaseStorage mFirebaseStorage;
 
-     private Button mUploadPhoto;
-     private Button mUploadPdf;
-     private Button mUploadVideo;
-     private EditText mEditText;
-     private StorageReference mPhotosStorageReference;
+    private Button mUploadPhoto;
+    private Button mUploadPdf;
+    private Button mUploadVideo;
+    private EditText mEditText;
+    private StorageReference mPhotosStorageReference;
     private StorageReference mViedeoStorageReference;
     private StorageReference mDocumentSotrageReference;
-     private RecyclerView mRecyclerView;
-     private ContributeAdapter mContriubuteItemAdapter;
-
+    private RecyclerView mRecyclerView;
+    private ContributeAdapter mContriubuteItemAdapter;
 
     public static final int RC_SIGN_IN = 1;
     private static final int RC_PHOTO_PICKER = 2;
@@ -77,7 +75,6 @@ public class Tab2Upload extends Fragment {
         mDocumentSotrageReference = mFirebaseStorage.getReference().child("documents");
         mRecyclerView = rootView.findViewById(R.id.contributionsListView);
 
-
         final Context context = this.getContext();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         final ArrayList<ContributeItem> contributeItems = new ArrayList<ContributeItem>();
@@ -86,6 +83,7 @@ public class Tab2Upload extends Fragment {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                contributeItems.clear();
                 for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
                     if (document != null) {
                         ContributeItem contributeItem = document.toObject(ContributeItem.class);
@@ -101,11 +99,8 @@ public class Tab2Upload extends Fragment {
 
 
 
-
-
-
-
         mEditText = rootView.findViewById(R.id.descriptionText);
+
         mUploadPhoto = rootView.findViewById(R.id.photo_upload_button);
         mUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +149,14 @@ public class Tab2Upload extends Fragment {
 
             }
         });
+
+        if(App.user.getClass().equals(Trainer.class)) {
+            mEditText.setVisibility(View.GONE);
+            mUploadPhoto.setVisibility(View.GONE);
+            mUploadPdf.setVisibility(View.GONE);
+            mUploadVideo.setVisibility(View.GONE);
+        }
+
         return rootView;
     }
 
