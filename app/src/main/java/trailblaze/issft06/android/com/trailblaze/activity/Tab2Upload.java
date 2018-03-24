@@ -98,38 +98,28 @@ public class Tab2Upload extends Fragment {
         });
 
 
-
         mEditText = rootView.findViewById(R.id.descriptionText);
-
         mUploadPhoto = rootView.findViewById(R.id.photo_upload_button);
+
         mUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/jpeg");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_PHOTO_PICKER);
-
-
-
             }
         });
 
         mUploadPdf = rootView.findViewById(R.id.document_upload_button);
+
         mUploadPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("application/pdf");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_DOCUMENT_PICKER);
-
-
-
             }
         });
 
@@ -138,19 +128,14 @@ public class Tab2Upload extends Fragment {
         mUploadVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("video/mp4");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_VIDEO_PICKER);
-
-
-
             }
         });
 
-        if(App.user.getClass().equals(Trainer.class)) {
+        if(App.user instanceof Trainer) {
             mEditText.setVisibility(View.GONE);
             mUploadPhoto.setVisibility(View.GONE);
             mUploadPdf.setVisibility(View.GONE);
@@ -163,9 +148,7 @@ public class Tab2Upload extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         final Date now = new Date();
-
         if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
 
@@ -190,9 +173,6 @@ public class Tab2Upload extends Fragment {
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
                             contributeItem.setcTime(now);
-
-
-
                             mFirebaseFirestore.collection("contributions").add(contributeItem);
 
                         }
@@ -222,7 +202,6 @@ public class Tab2Upload extends Fragment {
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
                             contributeItem.setcTime(now);
-
                             mFirebaseFirestore.collection("contributions").add(contributeItem);
 
                         }
@@ -252,7 +231,6 @@ public class Tab2Upload extends Fragment {
                             contributeItem.setTrailStationId(App.trailStation.getId());
                             contributeItem.setUrl(downloadUrl.toString());
                             contributeItem.setcTime(now);
-
                             mFirebaseFirestore.collection("contributions").add(contributeItem);
 
                         }
