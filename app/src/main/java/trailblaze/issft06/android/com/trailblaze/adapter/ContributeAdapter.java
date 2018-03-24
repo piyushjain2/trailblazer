@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 
@@ -49,8 +50,11 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mContributeItems.get(position);
 
-        holder.mIdView.setText(holder.mItem.getContentType());
+//        holder.mIdView.setText(holder.mItem.getContentType());
         holder.mDesc.setText(holder.mItem.getDesc());
+        holder.mUserUpload.setText(holder.mItem.getId() + " uploaded at " + holder.mItem.getcTime());
+
+        Log.d("DINH", holder.mItem.getId() + holder.mItem.getcTime());
 
         if (holder.mItem.getContentType().equals("application/pdf")) {
 
@@ -117,9 +121,10 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+//        public final TextView mIdView;
         public final ImageView mImageView;
         public final TextView mDesc;
+        public final TextView mUserUpload;
 
         public ContributeItem mItem;
 
@@ -127,10 +132,9 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
             super(view);
             mView = view;
             mImageView = (ImageView) view.findViewById(R.id.photoImageView);
-            mIdView = (TextView) view.findViewById(R.id.messageTextView);
+//            mIdView = (TextView) view.findViewById(R.id.messageTextView);
             mDesc = (TextView) view.findViewById(R.id.nameTextView);
-
-
+            mUserUpload = (TextView) view.findViewById(R.id.textView7);
         }
 
         @Override
