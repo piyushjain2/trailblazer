@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailStationFragment.OnListFragmentInteractionListener;
 import trailblaze.issft06.android.com.trailblaze.model.ContributeItem;
 import trailblaze.issft06.android.com.trailblaze.model.Trail;
 import trailblaze.issft06.android.com.trailblaze.R;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Trail} and makes a call to the
@@ -30,6 +40,8 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
 
     private final ArrayList<ContributeItem> mContributeItems;
     private Context context;
+    FirebaseFirestore mFirebaseFirestore ;
+    CollectionReference mCollectionRef;
 
     public ContributeAdapter(ArrayList<ContributeItem> items) {
 
@@ -47,9 +59,14 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mContributeItems.get(position);
+        mFirebaseFirestore =  FirebaseFirestore.getInstance();
+        mCollectionRef = mFirebaseFirestore.collection("contributions");
 
-        holder.mIdView.setText(holder.mItem.getContentType());
+        holder.mItem = mContributeItems.get(position);
+        holder.mDescriptionView.setText("Description: " + holder.mItem.getDesc());
+        holder.mUserView.setText("User: " + holder.mItem.getUserName());
+        holder.mPostedTime.setText("Posted at: " + holder.mItem.getcTime());
+        holder.mfileType.setText("File Type: " + holder.mItem.getContentType());
 
         if (holder.mItem.getContentType().equals("application/pdf")) {
 
@@ -73,7 +90,14 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                final CharSequence[] items = { "View","Delete" };
+                final CharSequence[] items ;
+
+                if (App.user.getId().equals(holder.mItem.getUserId())) {
+                    items = new CharSequence[]{"View", "Delete"};
+
+                } else {
+                    items = new CharSequence[]{"View"};
+                }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -86,19 +110,35 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(holder.mItem.getUrl()));
                             context.startActivity(intent);
                         } else if (items[item] == "Delete") {
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(holder.mItem.getUrl()));
-                            context.startActivity(intent);
+
+
+                            mCollectionRef
+                                    .whereEqualTo("id", holder.mItem.getId())
+                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                                            for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
+                                                if (document != null) {
+                                                    document.getReference().delete();
+                                                } else {
+                                                    Log.w(TAG, "No item here");
+                                                }
+                                            }
+
+                                        }
+                                    });
+                            new AlertDialog.Builder(context)
+                                .setTitle("Success")
+                                .setMessage("Item Removed")
+                                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .show();
                         }
 
-//                        new AlertDialog.Builder(context)
-//                                .setTitle("Success")
-//                                .setMessage("Item Removed")
-//                                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int which) {
 //
-//                                    }
-//                                })
-//                                .show();
 
                     }
 
@@ -122,8 +162,11 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+        public final TextView mfileType;
+        public final TextView mDescriptionView;
+        public final TextView mUserView;
         public final ImageView mImageView;
+        public final TextView mPostedTime;
 
 
         public ContributeItem mItem;
@@ -132,7 +175,12 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
             super(view);
             mView = view;
             mImageView = (ImageView) view.findViewById(R.id.photoImageView);
-            mIdView = (TextView) view.findViewById(R.id.messageTextView);
+            mfileType = (TextView) view.findViewById(R.id.fileType);
+            mDescriptionView = (TextView) view.findViewById(R.id.descriptionText);
+            mUserView = (TextView) view.findViewById(R.id.userPost);
+            mPostedTime = (TextView) view.findViewById(R.id.postedTime);
+
+
 
         }
 

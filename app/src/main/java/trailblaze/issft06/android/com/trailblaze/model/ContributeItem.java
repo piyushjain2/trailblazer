@@ -1,6 +1,7 @@
 package trailblaze.issft06.android.com.trailblaze.model;
 
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -11,12 +12,25 @@ public class ContributeItem {
     private String id;
     private String userId;
     private String name;
+    private String userName;
+
     private String trailStationId;
     private String url;
     private String desc;
     private String contentType;
 
     private Date cTime;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+
 
     public void setcTime(Date cTime) {
         this.cTime = cTime;

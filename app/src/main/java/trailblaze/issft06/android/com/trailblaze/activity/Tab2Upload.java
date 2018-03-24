@@ -29,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -179,7 +180,9 @@ public class Tab2Upload extends Fragment {
                             // Set the download URL to the message box, so that the user can send it to the database
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
-                            contributeItem.setId("ci001");
+
+                            contributeItem.setId(App.user.getId()+"_"+now);
+                            contributeItem.setUserName(App.user.getName());
                             contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
@@ -211,7 +214,9 @@ public class Tab2Upload extends Fragment {
                             // Set the download URL to the message box, so that the user can send it to the database
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
-                            contributeItem.setId("ci001");
+                            contributeItem.setId(App.user.getId()+"_"+now);
+
+                            contributeItem.setUserName(App.user.getName());
                             contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
@@ -241,7 +246,9 @@ public class Tab2Upload extends Fragment {
                             // Set the download URL to the message box, so that the user can send it to the database
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
-                            contributeItem.setId("ci001");
+                            contributeItem.setId(App.user.getId()+"_"+now);
+
+                            contributeItem.setUserName(App.user.getName());
                             contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
