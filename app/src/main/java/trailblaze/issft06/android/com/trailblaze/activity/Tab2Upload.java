@@ -82,6 +82,7 @@ public class Tab2Upload extends Fragment {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                contributeItems.clear();
                 for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
                     if (document != null) {
                         ContributeItem contributeItem = document.toObject(ContributeItem.class);
