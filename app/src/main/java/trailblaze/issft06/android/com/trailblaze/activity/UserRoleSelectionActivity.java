@@ -7,7 +7,6 @@ import android.view.View;
 
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.R;
-import trailblaze.issft06.android.com.trailblaze.Trainer_trailList;
 import trailblaze.issft06.android.com.trailblaze.model.User;
 
 public class UserRoleSelectionActivity extends AppCompatActivity implements View.OnClickListener {
