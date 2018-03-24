@@ -8,35 +8,41 @@
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/trail"/>
+
     <TextView
+        android:id="@+id/trail_stn_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:textSize="50dp"
-        android:text="Trail Name"/>
+        android:text="Trail Name"
+        android:textSize="50dp" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unjoin the trail!"
+        android:id="@+id/unjoin_trail"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Trail Description"/>
+        android:text="Trail Description"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Trail Description:"/>
+        android:text="List of Station:"/>
 
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list"
-    android:name="com.example.craft1k.seft06.Fragment.TrailStationFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.craft1k.seft06.Fragment.TrailStationFragment"
     tools:listitem="@layout/fragment_trail_station" />
 </LinearLayout>

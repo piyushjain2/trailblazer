@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:truesdk="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/login_form"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@mipmap/utwon2">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="42dp"
+        android:textStyle="bold"
+        android:fontFamily="Helvetica"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+
+        android:textColor="@color/White"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/login_google_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/google_button_color"
+            android:padding="16dp"
+
+
+            android:text="@string/googlelogin"
+            android:textColor="@color/White" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/login_fb_button"
+            android:layout_width="match_parent"
+
+            android:layout_height="50dp"
+            android:background="@color/fb_button_color"
+
+            android:padding="16dp"
+
+            android:text="@string/fblogin"
+            android:textColor="@color/White" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

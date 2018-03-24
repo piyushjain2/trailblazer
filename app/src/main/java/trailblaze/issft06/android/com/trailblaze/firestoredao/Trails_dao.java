@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import trailblaze.issft06.android.com.trailblaze.model.Trail;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -30,14 +32,17 @@ public class Trails_dao {
 
     // Access a Cloud Firestore instance from your Activity
 
-    FirebaseFirestore mdb = FirebaseFirestore.getInstance();
-    CollectionReference mtrails = mdb.collection("trails");
-    FirestoredaoMgr daoMgr = new FirestoredaoMgr();
+    FirebaseFirestore mdb ;
+    CollectionReference mtrails ;
+    FirestoredaoMgr daoMgr ;
 
 
 
     public Trails_dao() {
 
+        mdb = FirebaseFirestore.getInstance();
+        mtrails = mdb.collection("trails");
+        daoMgr = new FirestoredaoMgr();
     }
 
 
@@ -90,8 +95,9 @@ public class Trails_dao {
     // Getting trails by trailID
     private Map<String, Object> getTrailbyID(String trailID){
 
+
         mtrails
-                .whereEqualTo("trailID", trailID)
+                .whereEqualTo("trailId", trailID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -113,6 +119,15 @@ public class Trails_dao {
 
         //return object containing HashMap
         return null;
+
+    }
+
+
+    public Trail getTrailById(String trailID){
+        Trail trail = new Trail();
+        trail = mtrails.document(trailID).get().getResult().toObject(Trail.class);
+
+        return trail;
 
     }
 
