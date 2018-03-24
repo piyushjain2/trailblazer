@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -107,15 +109,50 @@ public class TrailStationFragment extends Fragment {
             mUnjoinTrail = (Button) view.findViewById(R.id.unjoin_trail);
 
             if(App.user.getClass().equals(Trainer.class)) {
-                mUnjoinTrail.setVisibility(View.GONE);
+                mUnjoinTrail.setText("Delete Trail");
             }
 
             mUnjoinTrail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mUnjoinTrail.setEnabled(false);
-                    mUnjoinTrail.setText("You do not join this Trail yet!");
-                    FirebaseFirestore mdb = FirebaseFirestore.getInstance();
+                    final FirebaseFirestore mdb = FirebaseFirestore.getInstance();
+                    if(App.user.getClass().equals(Trainer.class) && (App.trail.getFirebaseId() != null) ){
+                        final CollectionReference dtrails = mdb.collection("trails");
+                            dtrails
+                                    .whereEqualTo("trailID", App.trail.getId())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (DocumentSnapshot document : task.getResult()) {
+                                                    Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                                    if (document != null && document.exists()) {
+                                                        dtrails.document(document.getId()).delete()
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Log.w(TAG, "Error deleting document", e);
+                                                                    }
+                                                                });
+                                                    }
+
+                                                }
+                                            }
+
+                                        }
+                                    });
+                            }
+
+
                     final CollectionReference mUsers = mdb.collection("users");
                     mUsers
                             .whereEqualTo("id", App.user.getId())
