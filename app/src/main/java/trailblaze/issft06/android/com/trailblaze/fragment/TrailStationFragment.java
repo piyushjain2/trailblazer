@@ -52,7 +52,7 @@ public class TrailStationFragment extends Fragment {
     private static TextView  mTextView;
     private static ImageView mImageView;
 
-    private static TextView mDescription;
+   
     private static LinearLayout mLinearLayout;
     private  Button mUnjoinTrail;
 
@@ -113,10 +113,9 @@ public class TrailStationFragment extends Fragment {
 
             mUnjoinTrail = (Button) mLinearLayout.findViewById(R.id.unjoin_trail);
             mTextView = (TextView) mLinearLayout.findViewById(R.id.trail_name);
-            mDescription = (TextView) mLinearLayout.findViewById(R.id.trail_description);
+
 
             mTextView.setText(App.trail.getName());
-            mDescription.setText(App.trail.getDescription());
 
 
             if (App.user.getClass().equals(Participant.class)) {
