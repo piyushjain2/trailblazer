@@ -45,18 +45,18 @@ import static android.content.ContentValues.TAG;
 
 public class Tab2Upload extends Fragment {
 
-     FirebaseFirestore mFirebaseFirestore;
-     FirebaseStorage mFirebaseStorage;
+    FirebaseFirestore mFirebaseFirestore;
+    FirebaseStorage mFirebaseStorage;
 
-     private Button mUploadPhoto;
-     private Button mUploadPdf;
-     private Button mUploadVideo;
-     private EditText mEditText;
-     private StorageReference mPhotosStorageReference;
+    private Button mUploadPhoto;
+    private Button mUploadPdf;
+    private Button mUploadVideo;
+    private EditText mEditText;
+    private StorageReference mPhotosStorageReference;
     private StorageReference mViedeoStorageReference;
     private StorageReference mDocumentSotrageReference;
-     private RecyclerView mRecyclerView;
-     private ContributeAdapter mContriubuteItemAdapter;
+    private RecyclerView mRecyclerView;
+    private ContributeAdapter mContriubuteItemAdapter;
 
 
     public static final int RC_SIGN_IN = 1;
