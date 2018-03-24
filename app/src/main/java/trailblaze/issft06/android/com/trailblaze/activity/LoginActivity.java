@@ -43,8 +43,11 @@ import trailblaze.issft06.android.com.trailblaze.model.Participant;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * Created by piyush on 2/3/18.
+ */
 
-public class LoginActivity extends Activity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends Activity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private FirebaseAuth mAuth;
     private String TAG = "Signin Activity";
     private View googlePlusButton;
@@ -53,8 +56,8 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
     private View facebookButton;
     private CallbackManager callbackManager;
 
-    FirebaseFirestore mdb ;
-    CollectionReference mUsers ;
+    FirebaseFirestore mdb;
+    CollectionReference mUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
         setContentView(R.layout.activity_login);
 
 
-        googlePlusButton =  findViewById(R.id.login_google_button);
+        googlePlusButton = findViewById(R.id.login_google_button);
         googlePlusButton.setOnClickListener(this);
         // Configure Google Sign In
         //Google Signin Button
@@ -74,12 +77,11 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         //FB Signin Button
-        facebookButton =  findViewById(R.id.login_fb_button);
+        facebookButton = findViewById(R.id.login_fb_button);
         facebookButton.setOnClickListener(this);
 
 
         mAuth = FirebaseAuth.getInstance();
-
 
 
         //Facebook Callback Manager Initialisation
@@ -93,7 +95,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
                     try {
 
                         handleFacebookAccessToken(loginResult.getAccessToken());
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -105,11 +107,11 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
 
                 @Override
                 public void onError(FacebookException e) {
-                    Toast.makeText(LoginActivity.this, "FB Authentication Error: "+e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "FB Authentication Error: " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -119,7 +121,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        Toast.makeText(this, "Logged in as "+currentUser, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Logged in as " + currentUser, Toast.LENGTH_SHORT).show();
 //        updateUI(currentUser);
     }
 
@@ -130,7 +132,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
         if (id == R.id.login_google_button) {
             //do google login
             googleSignIn();
-        } else if (id == R.id.login_fb_button){
+        } else if (id == R.id.login_fb_button) {
             doFacebookLogin();
         }
 
@@ -159,7 +161,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
                 Log.w(TAG, "Google sign in failed", e);
                 // ...
             }
-        }else{
+        } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -185,7 +187,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
                             mUsers = mdb.collection("users");
 
                             mUsers
-                                    .whereEqualTo("id",App.user.getId())
+                                    .whereEqualTo("id", App.user.getId())
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
@@ -196,7 +198,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
                                         }
                                     });
 
-                            Intent intent = new Intent(LoginActivity.this,UserRoleSelectionActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, UserRoleSelectionActivity.class);
                             startActivity(intent);
                             finish();
 
@@ -234,17 +236,17 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
                             mUsers = mdb.collection("users");
 
                             mUsers
-                                    .whereEqualTo("id",App.user.getId())
+                                    .whereEqualTo("id", App.user.getId())
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                               @Override
-                                                               public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                   if (!task.isSuccessful()) {
-                                                                       mUsers.add(App.user);
-                                                                   }
-                                                               }
-                                                           });
-                            Intent intent = new Intent(LoginActivity.this,UserRoleSelectionActivity.class);
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (!task.isSuccessful()) {
+                                                mUsers.add(App.user);
+                                            }
+                                        }
+                                    });
+                            Intent intent = new Intent(LoginActivity.this, UserRoleSelectionActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
@@ -259,7 +261,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
                 });
     }
 
-    void doFacebookLogin(){
+    void doFacebookLogin() {
 
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add("public_profile");
@@ -267,6 +269,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Goog
 
         LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, permissions);
     }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
