@@ -14,13 +14,26 @@ public class Trainer extends User {
         createdTrails = new ArrayList<Trail>();
     }
 
-    public void createTrail() {
-        // TODO (2) implement create trail function
+    public boolean isCreated(Trail trail) {
+        return  createdTrails.contains(trail);
     }
 
-    public void createPost() {
-        // TODO (3) implement create post function
+    public void createTrail(Trail trail) {
+        if(isCreated(trail)) {
+            return;
+        } else {
+            this.createdTrails.add(trail);
+        }
     }
+
+    public void deleteTrail(Trail trail) {
+        if(!isCreated(trail)) {
+            return;
+        } else {
+            this.createdTrails.remove(trail);
+        }
+    }
+
 
     public ArrayList<Trail> getCreatedTrails() {
         return createdTrails;

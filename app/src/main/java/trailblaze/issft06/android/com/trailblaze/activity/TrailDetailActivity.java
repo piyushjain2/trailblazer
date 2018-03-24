@@ -19,6 +19,7 @@ import trailblaze.issft06.android.com.trailblaze.firestoredao.FirestoredaoMgr;
 import trailblaze.issft06.android.com.trailblaze.model.Participant;
 
 
+
 public class TrailDetailActivity extends AppCompatActivity {
     private String trailId;
     private TextView trailDetailName;
@@ -33,9 +34,10 @@ public class TrailDetailActivity extends AppCompatActivity {
         trailDetailName = (TextView) findViewById(R.id.trail_detail_name);
         trailDetailDescription = (TextView) findViewById(R.id.trail_result_description);
 
-        Participant participant;
-        participant = (Participant) App.user;
-
+        Participant participant = new Participant();
+        if (App.user.getId() != null) {  // check if test
+            participant = (Participant) App.user;
+        }
         Intent intent = getIntent();
 
         trailId = intent.getStringExtra("trailId");
@@ -49,9 +51,11 @@ public class TrailDetailActivity extends AppCompatActivity {
             mJoinTrailButton.setText("Joined Already");
             mJoinTrailButton.setEnabled(false);
         }
+
         mJoinTrailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
                 FirebaseFirestore mdb = FirebaseFirestore.getInstance();
                 CollectionReference mUsers = mdb.collection("users");
@@ -61,6 +65,7 @@ public class TrailDetailActivity extends AppCompatActivity {
 
                 CollectionReference mJoinedTrails = mUsers.document(App.user.getFirebaseId()).collection("joinedTrails");
                 //set creates new or will overwrite last
+
                 mJoinedTrails.add(App.trail);
 
             }

@@ -43,7 +43,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-//import trailblaze.issft06.android.com.trailblaze.Trainer_trailList;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailStationFragment;
@@ -165,16 +164,18 @@ public class ParticipantActivity extends AppCompatActivity implements Navigation
         mDescription = (TextView) headerView.findViewById(R.id.user_email);
 
         mProgressBar = (ProgressBar) this.findViewById(R.id.progressBar);
-
-        mUsers
-                .whereEqualTo("id", App.user.getId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+        if (App.user.getId() == null) { // for testing
+            mProgressBar.setVisibility(View.GONE);
+        } else {
+            mUsers
+                    .whereEqualTo("id", App.user.getId())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
 
                                 if (document != null && document.exists()) {
                                     participant = document.toObject(Participant.class);
@@ -218,6 +219,8 @@ public class ParticipantActivity extends AppCompatActivity implements Navigation
                         }
                     }
                 });
+
+        }
 
     }
 
@@ -293,6 +296,8 @@ public class ParticipantActivity extends AppCompatActivity implements Navigation
         mProgressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore mdb = FirebaseFirestore.getInstance();
         final CollectionReference mTrails = mdb.collection("trails");
+        Log.d(TAG, trail.getId());
+        App.trail.getTrailStations().clear();
 
         App.trail.setId(trail.getId());
         App.trail.setName(trail.getName());

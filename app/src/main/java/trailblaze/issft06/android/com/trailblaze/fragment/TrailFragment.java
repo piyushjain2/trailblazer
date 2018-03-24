@@ -72,17 +72,8 @@ public class TrailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-         View view;
-        if(App.user.getClass().equals(Participant.class)) { //select in trainer or participant for fragment with edit and delete
-            view = inflater.inflate(R.layout.fragment_trail_list, container, false);
-        }
-        else{
-            view = inflater.inflate(R.layout.fragment_trainer_trail_list, container, false);
-            //Buttons
-            Button edit =  (Button) view.findViewById(R.id.edit_trail);
-            Button del =  (Button) view.findViewById(R.id.delete_trail);
+        View view = inflater.inflate(R.layout.fragment_trail_list, container, false);
 
-        }
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -95,12 +86,40 @@ public class TrailFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
+//            final ArrayList<Trail> trails = new ArrayList<Trail>();
+//            Trail trail = new Trail();
+//            trail.setId("2017");
+//            trail.setName("Sample Trail");
+//            trail.setUserId("001");
+//            trails.add(trail);
+//            FirebaseFirestore mdb = FirebaseFirestore.getInstance();
+//            CollectionReference mTrails = mdb.collection("trails");
 
+//            for(String trailId : App.participant.getJoinedTrail() ) {
+//                mTrails
+//                        .whereEqualTo("id", trailId)
+//                        .get()
+//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                if (task.isSuccessful()) {
+//                                    for (DocumentSnapshot document : task.getResult()) {
+//                                        Log.d(TAG, document.getId() + " => " + document.getData());
+//
+//                                        if (document != null && document.exists()) {
+//                                            Trail trail = document.toObject(Trail.class);
+//                                            trails.add(trail);
+//                                        }
+//                                    }
+//
+//                                    recyclerView.setAdapter(new TrailRecyclerViewAdapter(trails, mListener));
+//                                } else {
+//                                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                                }
+//                            }
+//                        });
+//        }
             recyclerView.setAdapter(new TrailRecyclerViewAdapter(trails,mListener));
-
-
-
-
 
         }
         return view;
@@ -123,8 +142,6 @@ public class TrailFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-
 
     /**
      * This interface must be implemented by activities that contain this

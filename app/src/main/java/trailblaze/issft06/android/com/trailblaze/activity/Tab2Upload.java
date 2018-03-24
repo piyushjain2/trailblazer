@@ -7,7 +7,6 @@ package trailblaze.issft06.android.com.trailblaze.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,13 +26,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
+import trailblaze.issft06.android.com.trailblaze.adapter.ContributeAdapter;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.ContributeItem;
 import trailblaze.issft06.android.com.trailblaze.R;
@@ -53,8 +52,8 @@ public class Tab2Upload extends Fragment {
      private Button mUploadVideo;
      private EditText mEditText;
      private StorageReference mPhotosStorageReference;
-    private StorageReference mViedeoStorageReference;
-    private StorageReference mDocumentSotrageReference;
+     private StorageReference mViedeoStorageReference;
+     private StorageReference mDocumentSotrageReference;
      private RecyclerView mRecyclerView;
      private ContributeAdapter mContriubuteItemAdapter;
 
@@ -86,6 +85,7 @@ public class Tab2Upload extends Fragment {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                contributeItems.clear();
                 for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
                     if (document != null) {
                         ContributeItem contributeItem = document.toObject(ContributeItem.class);
@@ -181,7 +181,9 @@ public class Tab2Upload extends Fragment {
                             // Set the download URL to the message box, so that the user can send it to the database
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
-                            contributeItem.setId("ci001");
+
+                            contributeItem.setId(App.user.getId()+"_"+now);
+                            contributeItem.setUserName(App.user.getName());
                             contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
@@ -213,7 +215,9 @@ public class Tab2Upload extends Fragment {
                             // Set the download URL to the message box, so that the user can send it to the database
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
-                            contributeItem.setId("ci001");
+                            contributeItem.setId(App.user.getId()+"_"+now);
+
+                            contributeItem.setUserName(App.user.getName());
                             contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());
@@ -243,7 +247,9 @@ public class Tab2Upload extends Fragment {
                             // Set the download URL to the message box, so that the user can send it to the database
                             ContributeItem contributeItem = new ContributeItem();
                             contributeItem.setContentType(contentType);
-                            contributeItem.setId("ci001");
+                            contributeItem.setId(App.user.getId()+"_"+now);
+
+                            contributeItem.setUserName(App.user.getName());
                             contributeItem.setUserId(App.user.getId());
                             contributeItem.setDesc(mEditText.getText().toString());
                             contributeItem.setTrailStationId(App.trailStation.getId());

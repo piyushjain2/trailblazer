@@ -1,4 +1,4 @@
-package trailblaze.issft06.android.com.trailblaze.activity;
+package trailblaze.issft06.android.com.trailblaze.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

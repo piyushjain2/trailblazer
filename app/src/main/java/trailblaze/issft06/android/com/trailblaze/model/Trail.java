@@ -17,8 +17,21 @@ public class Trail {
     private String name;
     private Date    date;
     private Date timestamp;
+    private String description;
     private ArrayList<TrailStation> trailStations;
 
+    private Integer totalTrailStation;
+
+//
+
+
+    public Integer getTotalTrailStation() {
+        return totalTrailStation;
+    }
+
+    public void setTotalTrailStation(Integer totalTrailStation) {
+        this.totalTrailStation = totalTrailStation;
+    }
 
     private String firebaseId;
 
@@ -31,8 +44,17 @@ public class Trail {
     }
 
     public Trail() {
-
+        totalTrailStation = 0;
         trailStations = new ArrayList<TrailStation>();
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public static String getDateFormat() {
@@ -88,8 +110,31 @@ public class Trail {
     }
 
 
-
     public void setTrailStations(ArrayList<TrailStation> trailStations) {
         this.trailStations = trailStations;
+    }
+
+    public boolean contains(TrailStation trailStation) {
+       return this.trailStations.contains(trailStation);
+    }
+
+    public void addTrailStation(TrailStation trailStation) {
+        if(this.contains(trailStation)) {
+            return ;
+        } else {
+            totalTrailStation ++;
+            this.trailStations.add(trailStation);
+
+        }
+    }
+
+    public void removeTrailStation(TrailStation trailStation) {
+        if(!this.contains(trailStation)) {
+            return ;
+        } else {
+            totalTrailStation --;
+            this.trailStations.remove(trailStation);
+
+        }
     }
 }

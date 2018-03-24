@@ -11,9 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.util.Log;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -22,9 +19,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import trailblaze.issft06.android.com.trailblaze.R;
+import trailblaze.issft06.android.com.trailblaze.adapter.ContributeAdapter;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.ContributeItem;
 
@@ -81,7 +78,6 @@ public class Tab4Activity extends Fragment {
                 ContributeAdapter adapter = new ContributeAdapter(activityList);
                 adapter.notifyDataSetChanged();
                 listView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-
                 listView.setAdapter(adapter);
             }
         });
