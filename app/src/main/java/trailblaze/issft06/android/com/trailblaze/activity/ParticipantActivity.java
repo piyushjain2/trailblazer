@@ -43,7 +43,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-//import trailblaze.issft06.android.com.trailblaze.Trainer_trailList;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailFragment;
 import trailblaze.issft06.android.com.trailblaze.fragment.TrailStationFragment;
