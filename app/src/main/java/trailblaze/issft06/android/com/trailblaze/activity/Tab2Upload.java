@@ -36,6 +36,7 @@ import trailblaze.issft06.android.com.trailblaze.adapter.ContributeAdapter;
 import trailblaze.issft06.android.com.trailblaze.app.App;
 import trailblaze.issft06.android.com.trailblaze.model.ContributeItem;
 import trailblaze.issft06.android.com.trailblaze.R;
+import trailblaze.issft06.android.com.trailblaze.model.Trainer;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
@@ -98,11 +99,8 @@ public class Tab2Upload extends Fragment {
 
 
 
-
-
-
-
         mEditText = rootView.findViewById(R.id.descriptionText);
+
         mUploadPhoto = rootView.findViewById(R.id.photo_upload_button);
         mUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +149,14 @@ public class Tab2Upload extends Fragment {
 
             }
         });
+
+        if(App.user.getClass().equals(Trainer.class)) {
+            mEditText.setVisibility(View.GONE);
+            mUploadPhoto.setVisibility(View.GONE);
+            mUploadPdf.setVisibility(View.GONE);
+            mUploadVideo.setVisibility(View.GONE);
+        }
+        
         return rootView;
     }
 
