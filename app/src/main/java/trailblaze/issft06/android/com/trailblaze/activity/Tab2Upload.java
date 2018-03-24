@@ -74,7 +74,6 @@ public class Tab2Upload extends Fragment {
         mDocumentSotrageReference = mFirebaseStorage.getReference().child("documents");
         mRecyclerView = rootView.findViewById(R.id.contributionsListView);
 
-
         final Context context = this.getContext();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         final ArrayList<ContributeItem> contributeItems = new ArrayList<ContributeItem>();

@@ -54,7 +54,7 @@ public class ContributeAdapter extends RecyclerView.Adapter<ContributeAdapter.Vi
         if (holder.mItem.getContentType().equals("application/pdf")) {
 
             holder.mImageView.setImageResource(R.drawable.pdf_icon);
-        } else if (holder.mItem.getContentType().equals("image/jpeg")){
+        } else if (holder.mItem.getContentType().equals("image/jpeg")) {
 
             Glide.with(context)
                     .load(holder.mItem.getUrl())
