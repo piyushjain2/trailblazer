@@ -18,6 +18,11 @@ public class Trainer extends User {
         // TODO (2) implement create trail function
     }
 
+    public void createTrail(Trail trail) {
+        createdTrails = new ArrayList<Trail>();
+        createdTrails.add(trail);
+    }
+
     public void createPost() {
         // TODO (3) implement create post function
     }

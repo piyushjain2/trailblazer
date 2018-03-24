@@ -18,6 +18,7 @@ public class Trail {
     private Date    date;
     private Date timestamp;
     private ArrayList<TrailStation> trailStations;
+    private Integer totalTrailStation;
 
 
     private String firebaseId;
@@ -91,5 +92,22 @@ public class Trail {
 
     public void setTrailStations(ArrayList<TrailStation> trailStations) {
         this.trailStations = trailStations;
+    }
+
+    public void addTrailStation(TrailStation trailStation) {
+        trailStations.add(trailStation);
+    }
+
+    public Integer getTotalTrailStation() {
+        totalTrailStation = trailStations.size();
+        return totalTrailStation;
+    }
+
+    public boolean contains(TrailStation trailStation2) {
+        return trailStations.contains(trailStation2) ? true : false;
+    }
+
+    public void removeTrailStation(TrailStation trailStation) {
+        trailStations.remove(trailStation);
     }
 }
